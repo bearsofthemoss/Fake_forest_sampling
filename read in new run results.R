@@ -65,7 +65,7 @@ tu$Sample<- paste0("n",tu$Sample)
 tu$Sample <- factor(tu$Sample, 
                           levels=c("n10","n15", "n30", "n45","n80","n130","n215","n360","n600","n1000"))
 
-color_scale <- (colorRampPalette(c('darkred','darkred','darkred','red','red', 'yellow','yellow', 'orange', '#78C679', '#41AB5D', '#238443','forestgreen',"darkgreen"))(20))
+#color_scale <- (colorRampPalette(c('darkred','darkred','darkred','red','red', 'yellow','yellow', 'orange', '#78C679', '#41AB5D', '#238443','forestgreen',"darkgreen"))(20))
 
 
 

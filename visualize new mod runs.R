@@ -67,6 +67,7 @@ combined$Sample <- factor(combined$Sample,
 
 color_scale <- (colorRampPalette(c('darkred','darkred','darkred','red','red', 'yellow','yellow', 'orange', '#78C679', '#41AB5D', '#238443','forestgreen',"darkgreen"))(20))
 
+d15 <- combined
 
 
 # Define the colors and breakpoints
@@ -79,10 +80,10 @@ my_breaks = c(1,5,10,25,50,90)
 m1 <- combined[combined$model=="Model 1",]
 
 library(ggplot2)
-ggplot(m1 , aes(x=Sample, y=Est))+
+g1 <- ggplot(m1 , aes(x=Sample, y=Est))+
   geom_tile(aes(fill=p25*100), colour=NA)+
   scale_fill_gradientn(name="Percent of simulations with <15% difference",colors = my_colors, trans = "log10",breaks = my_breaks, labels = my_breaks) +
-  ylab("Sampling strategy")+ xlab("Sample size (number of trees)") +
+  ylab("Sampling strategy")+ xlab("Number of trees") +
   theme(panel.grid.minor = element_line( colour ="black", linetype ="dotted", size = 0.5)) +
   theme(panel.background = element_rect( colour ="black", fill ="white" ,size = 0.5 )) +
   theme(plot.title = element_text(size = 25, face = "bold"))+
@@ -95,7 +96,7 @@ ggplot(m1 , aes(x=Sample, y=Est))+
   scale_y_continuous(breaks= seq(1,16,1))+
   theme(text = element_text(family = "Calibri"))
 
-
+g1
 ###
 
 # make a df with just model 2
