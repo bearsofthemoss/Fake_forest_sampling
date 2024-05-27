@@ -6,7 +6,7 @@ wd <- here::here()
 
 getwd()
 
-datapath <- file.path(wd, "Data_folder","New_model_run_Nov_2023")
+datapath <- file.path(wd, "Data_folder","New_model_run_proportion","ProportionHeatMap")
 
 
 read_and_label <- function(folder, model, diam_dist) {

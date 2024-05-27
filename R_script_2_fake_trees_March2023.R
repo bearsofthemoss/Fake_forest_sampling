@@ -18,13 +18,22 @@ library(reshape2)
 ##(for figure 1)
 getwd()
 
-setwd("C:/Users/bears/Downloads")
+setwd("D:/Users/bears/Downloads")
 
 #fake_F/fake.tree.Wayson.csv"
 
-arb<-read.csv("fake_F/dist.csvs/fakeforest_arbogast.csv")
-uni<-read.csv("fake_F/dist.csvs/fakeforest_uniform.csv")
-v2<-read.csv("fake_F/dist.csvs/fakeforest_V2.csv")
+arb<-read.csv("fakeforest_arbogast.csv")
+uni<-read.csv("fakeforest_uniform.csv")
+v2<-read.csv("fakeforest_V2.csv")
+
+par(mfrow=c(3,2))
+plot(uni$x~ uni$y, main="uniform", )
+plot(arb$x~ arb$y, main="reverse-J")
+plot(v2$biomass~ v2$dbh, main="Fake forest v2")
+
+hist(uni$y)
+hist(arb$y)
+hist(v2$dbh)
 
 #(for figure 2)
 sc<-  as.data.frame(read_excel("Alex_re_arrange_4_29.xlsx", sheet="size.class"))

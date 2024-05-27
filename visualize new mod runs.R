@@ -48,9 +48,11 @@ combined[combined$Est=="E16" & combined$distribution=="Truncated Uniform","distr
 
 table(combined$distribution)
 # 
+
+# 4-23-  take out trun uniform left and right?
 combined$dist_name<-factor(combined$distribution, levels=c( "Proportional","Parabolic",
-                                                            "Skewed right","Skewed left",
-                                                            "Truncated uniform left","Truncated uniform right"))
+                                                            "Skewed right","Skewed left"))
+                                                            # "Truncated uniform left","Truncated uniform right"))
 
 # Removes U shaped triangle 
 combined <- combined[!is.na(combined$dist_name),]
@@ -81,8 +83,8 @@ m1 <- combined[combined$model=="Model 1",]
 
 library(ggplot2)
 g1 <- ggplot(m1 , aes(x=Sample, y=Est))+
-  geom_tile(aes(fill=p25*100), colour=NA)+
-  scale_fill_gradientn(name="Percent of simulations with <15% difference",colors = my_colors, trans = "log10",breaks = my_breaks, labels = my_breaks) +
+  geom_tile(aes(fill=p10*100), colour=NA)+
+  scale_fill_gradientn(name="Percent of simulations with <10% difference",colors = my_colors, trans = "log10",breaks = my_breaks, labels = my_breaks) +
   ylab("Sampling strategy")+ xlab("Number of trees") +
   theme(panel.grid.minor = element_line( colour ="black", linetype ="dotted", size = 0.5)) +
   theme(panel.background = element_rect( colour ="black", fill ="white" ,size = 0.5 )) +

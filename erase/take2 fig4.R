@@ -4,7 +4,7 @@ library(reshape2)
 library(ggplot2)
 
 #for figure 4)   (same datafile though-  Alex_re_arrange_4_29)
-c<-  as.data.frame(read_excel("Data_folder/Alex_re_arrange_4_29.xlsx"))
+c<-  as.data.frame(read_excel("Alex_re_arrange_4_29.xlsx"))
 c<-c[!c$model=="M2",]
 table(c$distribution)
 
