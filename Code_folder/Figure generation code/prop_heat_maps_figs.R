@@ -2,70 +2,46 @@ library(dplyr)
 library(here)
 library(ggplot2)
 
-avg_path <- file.path(here::here(), "Data_folder","New_model_run_averages")
+prop_path <- file.path(here::here(), "Data_folder","New_model_run_proportion")
 
+prop <- read.csv(file.path( prop_path , "prop_combined.csv"))
+prop <- prop[,-1]
 
-avg <- read.csv(file.path( avg_path , "avg_combined.csv"))
-avg <- avg[,-1]
+# Order the factors
+prop$Sample <- factor(prop$Sample, 
+                     levels=c("n10","n15", "n30", "n45","n80","n130","n215","n360","n600","n1000"))
 
-
-# order the levels
-avg$Sample <- factor(avg$Sample, 
-                          levels=c("n10","n15", "n30", "n45","n80","n130","n215","n360","n600","n1000"))
-
-avg$dist_name<-factor(avg$distribution, levels=c( "Proportional","Parabolic",
-                                                                    "Skewed right","Skewed left",
-                                                                    "Truncated uniform left","Truncated uniform right"))
-
+prop$dist_name<-factor(prop$distribution, levels=c( "Proportional","Parabolic",
+                                                  "Skewed right","Skewed left",
+                                                  "Truncated uniform left","Truncated uniform right"))
 
 
 
 
-avg_my_colors <- rev( c("darkred", "red", "orange", "yellow", "lightgreen", "green", "darkgreen"))
+table(prop$Est)
 
-summary(avg$value)
-
-avg_my_breaks = c(1,10 ,100,10000)
-
+# color_scale <- (colorRampPalette(c('darkred','darkred','darkred','red','red', 'yellow','yellow', 'orange', '#78C679', '#41AB5D', '#238443','forestgreen',"darkgreen"))(20))
+# 
 
 
-# Plot heat map with the averages
-m1 <- avg[avg$model=="Model 4",]
+# Define the colors and breakpoints
+my_colors <- c("darkred", "red", "orange", "yellow", "lightgreen", "green", "darkgreen")
+my_breaks = c(25,50,75,99)/100
 
-library(ggplot2)
-g1 <- ggplot(m1 , aes(x=Sample, y=Est))+
-  geom_tile(aes(fill=value), colour=NA)+
-  scale_fill_gradientn(name="Absolute uncertainty",trans = "log10",
-                       colors = avg_my_colors, 
-                       breaks = avg_my_breaks, 
-                       labels = avg_my_breaks) +
-  ylab("Sampling strategy")+ xlab("Number of trees") +
-  theme(panel.grid.minor = element_line( colour ="black", linetype ="dotted", size = 0.5)) +
-  theme(panel.background = element_rect( colour ="black", fill ="white" ,size = 0.5 )) +
-  theme(plot.title = element_text(size = 25, face = "bold"))+
-  facet_grid(dist_name ~ Diam_distribution, scales="free_y", 
-             labeller = label_wrap_gen(width=10),
-             space="free")+
-  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust=.5),
-        legend.position="bottom")+
-  theme(plot.title = element_text(hjust = 0.5),strip.text.y = element_text(size = 8, angle = 0))+
-  scale_y_continuous(breaks= seq(1,16,1))+
-  theme(text = element_text(family = "Calibri"))
-
-g1
-###
 
 
 ##########################################################
 
 
-# make a df with just model 2
-a <- combined[combined$Diam_distribution=="Arb",]
+
+a <- prop[prop$Diam_distribution=="Arb",]
 
 library(ggplot2)
 ggplot(a , aes(x=Sample, y=Est))+
-  geom_tile(aes(fill=p10*100), colour=NA)+
-  scale_fill_gradientn(name="Percent of simulations with <10% difference",colors = my_colors, trans = "log10",breaks = my_breaks, labels = my_breaks) +
+  geom_tile(aes(fill=p10), colour=NA)+
+  scale_fill_gradientn(name="Percent of simulations with <10% difference",colors = my_colors,
+                       #trans = "log10",
+                       breaks = my_breaks, labels = my_breaks) +
   ylab("Sampling strategy")+ xlab("Sample size (number of trees)") +
   theme(panel.grid.minor = element_line( colour ="black", linetype ="dotted", size = 0.5)) +
   theme(panel.background = element_rect( colour ="black", fill ="white" ,size = 0.5 )) +
@@ -83,8 +59,8 @@ ggplot(a , aes(x=Sample, y=Est))+
 #############  5, 10, 20, 30, 40, 50
 
 # Work with just the J forest type
-j <- combined[combined$Diam_distribution=="J",]
-j <- j[,-1]
+j <- prop[prop$Diam_distribution=="J",]
+
 head(j)
 
 library(tidyr)
@@ -119,7 +95,7 @@ ggplot(jg , aes(x=Sample, y=Est))+
 
 
 # Work with the 30 trees being sampled category
-p53 <- as.data.frame(combined[combined$Sample=="n30", ])
+p53 <- as.data.frame(prop[prop$Sample=="n30", ])
 p53 <-p53[order(-p53$p10), c("Diam_distribution","distribution","Est","model","Sample","p10")]
 
 names(p53)
@@ -170,7 +146,7 @@ ggplot(co, aes(x=Var3, y=Freq, fill=Var2))+
 ########
 
 
-m1 <- combined[combined$model=="Model 1",]
+m1 <- prop[prop$model=="Model 1",]
 mu <- m1[m1$dist_name=="Truncated uniform right",]
 
 library(ggplot2)

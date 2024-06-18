@@ -2,11 +2,7 @@ library(dplyr)
 library(here)
 library(ggplot2)
 
-wd <- here::here()
-
-getwd()
-
-datapath <- file.path(wd, "Data_folder","New_model_run_averages","AverageHeatMap")
+datapath <- file.path( here::here(),"Data_folder","New_model_run_averages")
 
 
 read_and_label <- function(folder, model, diam_dist) {
@@ -44,111 +40,93 @@ m1Arb <- read_and_label("7", "1", "Arb")
 m3Arb <- read_and_label("8", "3", "Arb")
 m4Arb <- read_and_label("9", "4", "Arb")
 
-combined<- rbind(
+avg_combined<- rbind(
   m1Uni, m3Uni, m4Uni,
   m1J, m3J, m4J,
   m1Arb, m3Arb, m4Arb
 )
 
+# Take out first column
+avg_combined <- avg_combined[ , -1]
+
+names(avg_combined)
+
+# gather the columns of sample size
+avg_combined <- gather(avg_combined, "tree_count","value",2:11 )
 
 
-
-
+names(avg_combined)
 
 
 ###### Make graphs with the averages
 
 
 # re-name the distribrution names
-combined[combined$distribution=="Triangular left","distribution" ]<- "Skewed left"
-combined[combined$distribution=="Triangular rigth","distribution" ]<- "Skewed right"
-combined[combined$distribution=="Truncated Triangles","distribution" ]<- "Truncated triangle 16 X"
-combined[combined$distribution=="Triangular Ushaped","distribution" ]<- "U-shaped triangle"
+avg_combined[avg_combined$distribution=="Triangular left","distribution" ]<- "Skewed left"
+avg_combined[avg_combined$distribution=="Triangular rigth","distribution" ]<- "Skewed right"
+avg_combined[avg_combined$distribution=="Truncated Triangles","distribution" ]<- "Truncated triangle 16 X"
+avg_combined[avg_combined$distribution=="Triangular Ushaped","distribution" ]<- "U-shaped triangle"
 
 
 ## add left and right truncated uniform
-combined[combined$Est=="E1" & combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform left"
-combined[combined$Est=="E2" & combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform left"
-combined[combined$Est=="E3" & combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform left"
-combined[combined$Est=="E4" & combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform left"
-combined[combined$Est=="E5" & combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform left"
-combined[combined$Est=="E6" & combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform left"
-combined[combined$Est=="E7" & combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform left"
-combined[combined$Est=="E8" & combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform left"
+avg_combined[avg_combined$Est=="E1" & avg_combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform left"
+avg_combined[avg_combined$Est=="E2" & avg_combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform left"
+avg_combined[avg_combined$Est=="E3" & avg_combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform left"
+avg_combined[avg_combined$Est=="E4" & avg_combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform left"
+avg_combined[avg_combined$Est=="E5" & avg_combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform left"
+avg_combined[avg_combined$Est=="E6" & avg_combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform left"
+avg_combined[avg_combined$Est=="E7" & avg_combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform left"
+avg_combined[avg_combined$Est=="E8" & avg_combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform left"
 
-combined[combined$Est=="E9" & combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform right"
-combined[combined$Est=="E10" & combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform right"
-combined[combined$Est=="E11" & combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform right"
-combined[combined$Est=="E12" & combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform right"
-combined[combined$Est=="E13" & combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform right"
-combined[combined$Est=="E14" & combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform right"
-combined[combined$Est=="E15" & combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform right"
-combined[combined$Est=="E16" & combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform right"
+avg_combined[avg_combined$Est=="E9" & avg_combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform right"
+avg_combined[avg_combined$Est=="E10" & avg_combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform right"
+avg_combined[avg_combined$Est=="E11" & avg_combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform right"
+avg_combined[avg_combined$Est=="E12" & avg_combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform right"
+avg_combined[avg_combined$Est=="E13" & avg_combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform right"
+avg_combined[avg_combined$Est=="E14" & avg_combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform right"
+avg_combined[avg_combined$Est=="E15" & avg_combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform right"
+avg_combined[avg_combined$Est=="E16" & avg_combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform right"
 
 
-table(combined$distribution)
+table(avg_combined$distribution)
 # 
-combined$dist_name<-factor(combined$distribution, levels=c( "Proportional","Parabolic",
+avg_combined$dist_name<-factor(avg_combined$distribution, levels=c( "Proportional","Parabolic",
                                                             "Skewed right","Skewed left",
                                                             "Truncated uniform left","Truncated uniform right"))
 
 # Removes U shaped triangle 
-combined <- combined[!is.na(combined$dist_name),]
-summary(combined$dist_name)
+avg_combined <- avg_combined[!is.na(avg_combined$dist_name),]
 
 
-write.csv(combined, file.path(datapath, "average_output_combined.csv"))
+# take out 'E' from sampling strategy
+avg_combined$Est <- as.numeric(gsub("E", "", avg_combined$Est))
+avg_combined$tree_count<- as.numeric(gsub("X", "", avg_combined$tree_count))
 
-# 
-# ###########################################################################
-# 
-# library(tidyr)
-# mug <- gather(mu[ , -1], "number_trees", "value", 3:11)
-# 
-# 
-# mug$number_trees <- substring(mug$number_trees, 2)
-# 
-# mug$number_trees<- paste0("n", mug$number_trees)  
-#   
-# mug$number_trees <- factor(mug$number_trees, 
-#                     levels=c("n15", "n30", "n45","n80","n130","n215","n360","n600","n1000"))
-# 
-# mug$Est <- factor(mug$Est, 
-#                            levels=c("E1", "E2", "E3","E4","E5","E6","E7","E8",
-#                                     "E9", "E10", "E11","E12","E13","E14","E15","E16"))
-# 
-# 
-# # 
-# # color_scale <- (colorRampPalette(c('darkred','darkred','darkred','red','red', 'yellow','yellow', 'orange', '#78C679', '#41AB5D', '#238443','forestgreen',"darkgreen"))(20))
-# # 
-# 
-# summary(mug$value)
-# # Define the colors and breakpoints
-# my_colors <- rev(c("darkred", "red", "orange", "yellow", "lightgreen", "green", "darkgreen","darkgreen"))
-# my_breaks = c(5,1,50, 200,10000)
-# 
-# 
-# 
-# mug$distribution<-factor(mug$distribution, levels=c( "Proportional","Parabolic",
-#                                                             "Skewed right","Skewed left"))
-# 
-# # Removes U shaped triangle 
-# 
-# g2 <- ggplot(mug[!is.na(mug$distribution), ] , aes(x=number_trees, y=Est))+
-#   geom_tile(aes(fill=value), colour=NA)+
-#   scale_fill_gradientn(name="Average uncertainty value (%)",colors = my_colors,trans = "log10", breaks = my_breaks, labels = my_breaks) +
-#   ylab("Sampling strategy")+ xlab("Number of trees") +
-#   theme(panel.grid.minor = element_line( colour ="black", linetype ="dotted")) +
-#   theme(panel.background = element_rect( colour ="black", fill ="white" )) +
-# facet_grid(distribution ~ Diam_distribution , scales="free_y",
-#            labeller = label_wrap_gen(width=10),
-#            space="free")+
-# theme(plot.title = element_text(size = 25, face = "bold"),
-#       legend.position = "bottom")+
-# theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust=.5))+
-#   theme(plot.title = element_text(hjust = 0.5),strip.text.y = element_text(size = 8, angle = 0))
-# 
-# g2
-# 
-# library(ggpubr)
-# ggarrange(g1, g2, nrow=1 )
+
+avg_combined$Sample<- paste0("n",avg_combined$tree_count)
+
+
+
+### Fix number for truncated uniform right
+
+tur_avg <- avg_combined[avg_combined$distribution=="Truncated uniform right", ]
+
+
+
+tur_avg[tur_avg$Est==16,"Est"] <- 1
+tur_avg[tur_avg$Est==15,"Est"] <- 2
+tur_avg[tur_avg$Est==14,"Est"] <- 3
+tur_avg[tur_avg$Est==13,"Est"] <- 4
+tur_avg[tur_avg$Est==12,"Est"] <- 5
+tur_avg[tur_avg$Est==11,"Est"] <- 6
+tur_avg[tur_avg$Est==10,"Est"] <- 7
+tur_avg[tur_avg$Est==9,"Est"] <- 8
+
+
+avg_combined <- avg_combined[!avg_combined$distribution=="Truncated uniform right",]
+avg_combined <- rbind(tur_avg, avg_combined)
+
+
+
+
+write.csv(avg_combined,  file.path( datapath,"avg_combined.csv"))

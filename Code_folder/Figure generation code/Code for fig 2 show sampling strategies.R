@@ -1,7 +1,11 @@
 library(readxl)
+library(here)
+
+fd <- file.path(here::here(),"Data_folder","forest_distributions")
 
 #(for figure 2)
-sc<-  as.data.frame(read_excel("Alex_re_arrange_4_29.xlsx", sheet="size.class"))
+sc<-  read_excel(
+  file.path(fd,"Alex_re_arrange_4_29.xlsx"), sheet="size.class.ay")
 
 
 head(sc)
@@ -46,58 +50,56 @@ gs$size.class[gs$size.class == "sc8"] <- "80-90"
 
 table(gs$Distribution)
 
-
-ggplot(gs, aes(x=size.class, y=value, color=row))+geom_point()+
-  facet_wrap(~Distribution, ncol=3)+geom_line(aes(group=group))+ylab("Proportion of distribution (%)")+xlab("Tree diameter class (cm)")+
-  theme_bw()+theme(strip.background =element_rect(fill="white"))+theme(plot.title = element_text(hjust = 0.5))+  theme(text=element_text(size=16))+
-  theme(strip.text.x = element_text(size = 14),panel.grid.major = element_blank(),panel.grid.minor = element_blank())+
-  theme(legend.position="none")+
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
-
-
-
-
-## 4-27
-names(gs)
-
-#write.csv(gs, file="new_fig3_ary.csv")
-
-# read in new formatted .csv
-#gs<-read.csv( file="new_fig3_ary.csv")
-
-gs$Dist_name<-factor(gs$Distribution , levels=c("Proportional","Parabolic",
-                                            "Skewed left","Skewed right",
-                                            "Truncated uniform left","Truncated uniform right"))
-
-# gs$legend_use <- factor(gs$legend_use, levels=c("Reverse-J","Even-aged distribution","Uniform",
-#                                                 "Sampling strategy 1","Sampling strategy 2","Sampling strategy 3","Sampling strategy 4",
-#                                                 "Sampling strategy 5","Sampling strategy 6","Sampling strategy 7","Sampling strategy 8"))
-
-library(RColorBrewer)
-
-gm <- RColorBrewer::brewer.pal(n=9, name="BrBG")[c(1:4,5:9)]
-
-
-ggplot(gs, aes(x=size.class, y=value, color=row))+geom_point()+
-  facet_wrap(~Dist_name, ncol=2)+geom_line(aes(group=group))+ylab("Proportion of distribution (%)")+xlab("Tree diameter class (cm)")+
-  theme_bw()+theme(strip.background =element_rect(fill="white"))+theme(plot.title = element_text(hjust = 0.5))+ 
-  theme(text=element_text(size=16))+
-  scale_color_manual(values=c("red","orange","blue",gm), name="")+
-  theme(strip.text.x = element_text(size = 14),panel.grid.major = element_blank(),panel.grid.minor = element_blank())+
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
-
-fffig2
-
-legend_use
+# 
+# ggplot(gs, aes(x=size.class, y=value, color=row))+geom_point()+
+#   facet_wrap(~Distribution, ncol=3)+geom_line(aes(group=group))+ylab("Proportion of distribution (%)")+xlab("Tree diameter class (cm)")+
+#   theme_bw()+theme(strip.background =element_rect(fill="white"))+theme(plot.title = element_text(hjust = 0.5))+  theme(text=element_text(size=16))+
+#   theme(strip.text.x = element_text(size = 14),panel.grid.major = element_blank(),panel.grid.minor = element_blank())+
+#   theme(legend.position="none")+
+#   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+# 
+# 
+# ## 4-27
+# 
+# #write.csv(gs, file="new_fig3_ary.csv")
+# 
+# # read in new formatted .csv
+# #gs<-read.csv( file="new_fig3_ary.csv")
+# 
+# gs$Dist_name<-factor(gs$Distribution , levels=c("Proportional","Parabolic",
+#                                             "Skewed left","Skewed right",
+#                                             "Truncated uniform left","Truncated uniform right"))
+# 
+# # gs$legend_use <- factor(gs$legend_use, levels=c("Reverse-J","Even-aged distribution","Uniform",
+# #                                                 "Sampling strategy 1","Sampling strategy 2","Sampling strategy 3","Sampling strategy 4",
+# #                                                 "Sampling strategy 5","Sampling strategy 6","Sampling strategy 7","Sampling strategy 8"))
+# 
+# library(RColorBrewer)
+# 
+# gm <- RColorBrewer::brewer.pal(n=9, name="BrBG")[c(1:4,5:9)]
+# 
+# 
+# 
+# ggplot(gs, aes(x=size.class, y=value, color=row))+geom_point()+
+#   facet_wrap(~Dist_name, ncol=2)+geom_line(aes(group=group))+ylab("Proportion of distribution (%)")+xlab("Tree diameter class (cm)")+
+#   theme_bw()+theme(strip.background =element_rect(fill="white"))+theme(plot.title = element_text(hjust = 0.5))+ 
+#   theme(text=element_text(size=16))+
+#   scale_color_manual(values=c("red","orange","blue",gm), name="")+
+#   theme(strip.text.x = element_text(size = 14),panel.grid.major = element_blank(),panel.grid.minor = element_blank())+
+#   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
 
-ggplot(gs, aes(x=size.class, y=row, size=value))+geom_point()+
+
+
+ggplot(gs, aes(x=size.class, y=row, size=value/100))+geom_point()+
   facet_wrap(~Distribution, ncol=3, scales="free_y")+
   xlab("Diameter size class (centimeters)")+
+  scale_size(range = c(0, 10))+
   guides(size=guide_legend(title="Proportion of size class"))+
   ylab("Sampling strategy")+
+  scale_colour_gradientn(colours=c("blue", "orange"))+
   theme_bw()+theme(strip.background =element_rect(fill="white"))+theme(plot.title = element_text(hjust = 0.5))+  theme(text=element_text(size=16))+
   theme(strip.text.x = element_text(size = 14),panel.grid.major = element_blank(),panel.grid.minor = element_blank())+
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
   theme(legend.position = "bottom")+
-  geom_hline(yintercept=c(1.5, 2.5, 3.5), linetype= "dashed")
+  geom_hline(yintercept=c(1.5, 2.5, 3.5,4.5,5.5,6.5,7.6), linetype= "dashed")

@@ -2,11 +2,7 @@ library(dplyr)
 library(here)
 library(ggplot2)
 
-wd <- here::here()
-
-getwd()
-
-datapath <- file.path(wd, "Data_folder","New_model_run_proportion","ProportionHeatMap")
+datapath <- file.path( here::here(),"Data_folder","New_model_run_proportion")
 
 
 read_and_label <- function(folder, model, diam_dist) {
@@ -44,49 +40,85 @@ m1Arb <- read_and_label("7", "1", "Arb")
 m3Arb <- read_and_label("8", "3", "Arb")
 m4Arb <- read_and_label("9", "4", "Arb")
 
-combined<- rbind(
+prop_combined<- rbind(
   m1Uni, m3Uni, m4Uni,
   m1J, m3J, m4J,
   m1Arb, m3Arb, m4Arb
 )
 
-#write.csv(combined, file.path(datapath, "combined.csv"))
+
+################
 
 
+# re-name the distribrution names
+prop_combined[prop_combined$distribution=="Triangular left","distribution" ]<- "Skewed left"
+prop_combined[prop_combined$distribution=="Triangular rigth","distribution" ]<- "Skewed right"
+prop_combined[prop_combined$distribution=="Truncated Triangles","distribution" ]<- "Truncated triangle 16 X"
+prop_combined[prop_combined$distribution=="Triangular Ushaped","distribution" ]<- "U-shaped triangle"
 
-m1Uni
-table(m1Uni$distribution)
-tu <- combined[combined$distribution=="Truncated Uniform",]
-table(tu$Sample)
 
-tu$Sample
-tu$Est <- as.numeric(gsub("E", "", tu$Est))
-tu$Sample<- paste0("n",tu$Sample)
-tu$Sample <- factor(tu$Sample, 
+## add left and right truncated uniform
+prop_combined[prop_combined$Est=="E1" & prop_combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform left"
+prop_combined[prop_combined$Est=="E2" & prop_combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform left"
+prop_combined[prop_combined$Est=="E3" & prop_combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform left"
+prop_combined[prop_combined$Est=="E4" & prop_combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform left"
+prop_combined[prop_combined$Est=="E5" & prop_combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform left"
+prop_combined[prop_combined$Est=="E6" & prop_combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform left"
+prop_combined[prop_combined$Est=="E7" & prop_combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform left"
+prop_combined[prop_combined$Est=="E8" & prop_combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform left"
+
+prop_combined[prop_combined$Est=="E9" & prop_combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform right"
+prop_combined[prop_combined$Est=="E10" & prop_combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform right"
+prop_combined[prop_combined$Est=="E11" & prop_combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform right"
+prop_combined[prop_combined$Est=="E12" & prop_combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform right"
+prop_combined[prop_combined$Est=="E13" & prop_combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform right"
+prop_combined[prop_combined$Est=="E14" & prop_combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform right"
+prop_combined[prop_combined$Est=="E15" & prop_combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform right"
+prop_combined[prop_combined$Est=="E16" & prop_combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform right"
+
+
+table(prop_combined$distribution)
+# 
+prop_combined$dist_name<-factor(prop_combined$distribution, levels=c( "Proportional","Parabolic",
+                                                            "Skewed right","Skewed left",
+                                                            "Truncated uniform left","Truncated uniform right"))
+
+# Removes U shaped triangle 
+prop_combined <- prop_combined[!is.na(prop_combined$dist_name),]
+summary(prop_combined$dist_name)
+
+
+#
+# take out 'E' from sampling strategy
+prop_combined$Est <- as.numeric(gsub("E", "", prop_combined$Est))
+prop_combined$tree_count<-prop_combined$Sample
+prop_combined$Sample<- paste0("n",prop_combined$Sample)
+
+
+prop_combined$Sample <- factor(prop_combined$Sample, 
                           levels=c("n10","n15", "n30", "n45","n80","n130","n215","n360","n600","n1000"))
 
-#color_scale <- (colorRampPalette(c('darkred','darkred','darkred','red','red', 'yellow','yellow', 'orange', '#78C679', '#41AB5D', '#238443','forestgreen',"darkgreen"))(20))
+### Fix number for truncated uniform right
+
+tur <- prop_combined[prop_combined$distribution=="Truncated uniform right", ]
+
+
+tur[tur$Est==16,"Est"] <- 1
+tur[tur$Est==15,"Est"] <- 2
+tur[tur$Est==14,"Est"] <- 3
+tur[tur$Est==13,"Est"] <- 4
+tur[tur$Est==12,"Est"] <- 5
+tur[tur$Est==11,"Est"] <- 6
+tur[tur$Est==10,"Est"] <- 7
+tur[tur$Est==9,"Est"] <- 8
+
+prop_combined <- prop_combined[!prop_combined$distribution=="Truncated uniform right",]
+prop_combined <- rbind(tur, prop_combined)
 
 
 
-# Define the colors and breakpoints
-my_colors <- c("darkred", "red", "orange", "yellow", "lightgreen", "green", "darkgreen")
-my_breaks = c(1,5,10,25,50,90)
-
-str(tu)
+###############
+write.csv(prop_combined, file.path( datapath,"prop_combined.csv"))
 
 
 
-ggplot(tu , aes(x=Sample, y=Est))+
-  geom_tile(aes(fill=p5*100), colour=NA)+
-  scale_fill_gradientn(name="Percent of simulations with <5% difference",colors = my_colors, trans = "log10",breaks = my_breaks, labels = my_breaks) +
-  ylab("Sampling strategy")+ xlab("Sample size (number of trees)") +
-  theme(panel.grid.minor = element_line( colour ="black", linetype ="dotted", size = 0.5)) +
-  theme(panel.background = element_rect( colour ="black", fill ="white" ,size = 0.5 )) +
-  theme(plot.title = element_text(size = 25, face = "bold"))+
-  #facet_grid(distribution ~ Diam_distribution, scales="free_y", 
-   #          labeller = label_wrap_gen(width=10),
-    #         space="free")+
-#  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust=.5))+
-  theme(plot.title = element_text(hjust = 0.5),strip.text.y = element_text(size = 8, angle = 0))+
-  scale_y_reverse()
