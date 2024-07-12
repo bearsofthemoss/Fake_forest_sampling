@@ -82,7 +82,8 @@ print(color_palette)
 head(ma)
 
 ggplot(ma[ma$average< 10000,], aes(x=average, y=less_than15 , col=as.factor(number_trees)))+
-  facet_grid( dist_name~ Diam_distribution)+ 
+  facet_grid( Diam_distribution ~ dist_name )+ 
+  scale_x_log10()+
   geom_point()+
   
   scale_color_manual(values = color_palette) +
@@ -104,3 +105,4 @@ ggplot(ma[ma$average< 5000,], aes(x=average, y=less_than15 , col=dist_name, shap
 
 
 head(avg)
+
