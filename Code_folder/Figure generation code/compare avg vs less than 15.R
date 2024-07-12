@@ -42,7 +42,7 @@ avg$dist_name<-factor(avg$distribution, levels=c( "Proportional","Parabolic",
 ###########
 
 
-below <- aggregate(list(less_than15 = prop$p15) , by = list(dist_name = prop$dist_name,
+below <- aggregate(list(less_than15 = prop$p10) , by = list(dist_name = prop$dist_name,
                               number_trees = prop$tree_count,
                               Est = prop$Est,
                              Diam_distribution = prop$Diam_distribution,
@@ -69,24 +69,26 @@ ma$less_than15 <- below$less_than15[match(ma$id, below$id)]
 
 
 # Specify the starting and ending colors
-# start_color <- "darkred"
-# mid_color <- "lightgreen"
-# end_color <- "darkgreen"
-# 
-# # Create a color palette with 9 colors
-# color_palette <- colorRampPalette(c(start_color, mid_color, end_color))(10)
+start_color <- "darkred"
+mid_color <- "lightgreen"
+end_color <- "darkgreen"
+
+# Create a color palette with 9 colors
+color_palette <- colorRampPalette(c(start_color, mid_color, end_color))(10)
 
 # Display the resulting color palette
 print(color_palette)
 
 head(ma)
 
-ggplot(ma[ma$average< 5000,], aes(x=average, y=less_than15 , col=Est, shape=dist_name))+
-  facet_grid(  Diam_distribution~ as.factor(number_trees), scales="free")+ geom_point()+
+ggplot(ma[ma$average< 10000,], aes(x=average, y=less_than15 , col=as.factor(number_trees)))+
+  facet_grid( dist_name~ Diam_distribution)+ 
+  geom_point()+
   
-  #scale_color_manual(values = color_palette) +
-  
-  labs(x="Average uncertainty value (%)", y="Proportion of model runs < 15% uncertainty")+
+  scale_color_manual(values = color_palette) +
+
+  labs(x="Average uncertainty value (%)", 
+       y="Proportion of model runs < 10% uncertainty")+
   theme_bw()+theme(panel.grid.major = element_blank(), panel.grid.minor=element_blank())
 
 
