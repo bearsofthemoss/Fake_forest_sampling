@@ -89,17 +89,35 @@ table(gs$Distribution)
 #   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
 
+gs$new_order <- as.character(gs$row)
+gs[gs$Distribution=="Reverse-J","new_order"] <- "Reverse-J"
+gs[gs$Distribution=="Even-aged distribution","new_order"] <- "Even-aged distribution"
+gs[gs$Distribution=="Uniform","new_order"] <- "Uniform"
 
+gs$new_facet <- as.character(gs$Distribution)
+gs[gs$Distribution=="Reverse-J","new_facet"] <- "Proportional"
+gs[gs$Distribution=="Even-aged distribution","new_facet"] <- "Proportional"
+gs[gs$Distribution=="Uniform","new_facet"] <- "Proportional"
 
-ggplot(gs, aes(x=size.class, y=row, size=value/100))+geom_point()+
-  facet_wrap(~Distribution, ncol=3, scales="free_y")+
-  xlab("Diameter size class (centimeters)")+
-  scale_size(range = c(0, 10))+
-  guides(size=guide_legend(title="Proportion of size class"))+
-  ylab("Sampling strategy")+
-  scale_colour_gradientn(colours=c("blue", "orange"))+
-  theme_bw()+theme(strip.background =element_rect(fill="white"))+theme(plot.title = element_text(hjust = 0.5))+  theme(text=element_text(size=16))+
+gs$new_facet <- factor(gs$new_order, levels=c("Reverse-J","Even-aged distribution","Uniform","1","2","3","4","5","6","7","8"))
+
+gs$new_facet <- factor(gs$new_facet, levels=c("Proportional","Parabolic","Skewed left","Skewed right","Truncated uniform left","Truncated uniform right"))
+
+ggplot(gs, aes(x=size.class, y=new_order, size=value/100, col=value/100))+geom_point()+
+  facet_wrap(~new_facet, ncol=2, scales="free_y")+
+  labs(x="Diameter size class (centimeters)",
+        y=  "Sampling strategies",
+       col="Proportion of size class",
+       size="Proportion of size class")+
+  scale_size(range = c(2.5, 6))+
+  #guides(size=guide_legend(title="Proportion of size class"))+
+  
+  scale_colour_gradientn(colours = c("brown","darkgrey","lightblue","darkblue"),
+                         values = c(0.6,0.4,0.2,0))+ 
+  theme_bw()+theme(strip.background =element_rect(fill="white"))+
+  theme(plot.title = element_text(hjust = 0.5))+  theme(text=element_text(size=16))+
   theme(strip.text.x = element_text(size = 14),panel.grid.major = element_blank(),panel.grid.minor = element_blank())+
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
-  theme(legend.position = "bottom")+
+  theme(legend.position = "right")+
   geom_hline(yintercept=c(1.5, 2.5, 3.5,4.5,5.5,6.5,7.6), linetype= "dashed")
+
