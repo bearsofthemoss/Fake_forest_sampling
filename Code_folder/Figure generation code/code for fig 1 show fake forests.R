@@ -35,7 +35,7 @@ v2<-read.csv(file.path(fd,"fakeforest_V2.csv"))
 # hist(v2$dbh)
 
 #(for figure 2)
-sc<-  as.data.frame(read_excel("Data_folder/Alex_re_arrange_4_29.xlsx", sheet="size.class"))
+sc<-  as.data.frame(read_excel("Data_folder/forest_distributions/Alex_re_arrange_4_29.xlsx", sheet="size.class"))
 
 # #for figure 4)   (same datafile though-  Alex_re_arrange_4_29)
 # c<-  as.data.frame(read_excel("Alex_re_arrange_4_29.xlsx"))
