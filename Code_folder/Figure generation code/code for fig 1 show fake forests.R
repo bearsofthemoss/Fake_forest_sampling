@@ -57,34 +57,39 @@ hist(uni$y, xlab="Diameter (cm)", main="(c) Uniform distribution", xlim=c(10,85)
 dev.off()
 
 
-### If you wanted to add lines to base R figures
-# fitting lowess and spline
-par(mfrow=c(1,1))
-plot(arb$x ~ arb$y, main="arbogast", xlab="Diameter",ylab="Biomass")
-lines(lowess(arb$y, arb$x), col="red")
-lines(smooth.spline(arb$y,arb$x, df=5), lty=3, col="yellow")
 
 
 ###############################################################
 ## FIGURE 1
 # Yet another way to do figure 1
 
-mex<-ggplot(v2, aes(dbh))+geom_histogram(binwidth = 10, fill="white", color="black")+theme_classic()+
-  ggtitle("Diameter distribution in Mexico")+xlab("Diameter (cm)")+ylab("Frequency")+theme(text=element_text(size=20))+
-  scale_x_continuous(breaks=seq(0,90,20))+theme(plot.title = element_text(hjust = 0.5))
+summary(v2)
+summary(arb)
+summary(uni)
+
+mex<-ggplot(v2, aes(dbh))+geom_histogram(binwidth = 5, fill="red", color="black")+theme_classic()+
+  ggtitle("Reverse J distribution")+xlab("")+ylab("Frequency")+theme(text=element_text(size=20))+
+  theme(plot.title = element_text(hjust = 0.5))+
+  scale_x_continuous(expand = c(0, 0), limits = c(0, NA),breaks=seq(0,90,10)) + 
+  scale_y_continuous(expand = c(0, 0), limits = c(0, NA))
+
 mex
 
-f.arb<-ggplot(arb, aes(y))+geom_histogram(binwidth = 10, fill="white", color="black")+theme_classic()+
-  ggtitle("Arbogast distribution")+xlab("Diameter (cm)")+ylab("")+theme(text=element_text(size=20))+
-  scale_x_continuous(breaks=seq(0,90,20))+theme(plot.title = element_text(hjust = 0.5))
-f.arb
+f.arb<-ggplot(arb, aes(y))+geom_histogram(binwidth = 5, fill="orange", color="black")+theme_classic()+
+  ggtitle("Even-aged distribution")+xlab("")+ylab("")+theme(text=element_text(size=20))+
+  theme(plot.title = element_text(hjust = 0.5))+
+  scale_x_continuous(expand = c(0, 0), limits = c(0, NA),breaks=seq(0,90,10)) + 
+  scale_y_continuous(expand = c(0, 0), limits = c(0, NA))
+  f.arb
 
-f.uni<-ggplot(uni, aes(uni$y))+geom_histogram(binwidth = 10, fill="white", color="black")+theme_classic()+
+f.uni<-ggplot(uni, aes(y))+geom_histogram(binwidth = 5, fill="blue", color="black")+theme_classic()+
   ggtitle("Uniform distribution")+xlab("Diameter (cm)")+ylab("")+theme(text=element_text(size=20))+
-  scale_x_continuous(breaks=seq(0,90,20))+theme(plot.title = element_text(hjust = 0.5))
+  theme(plot.title = element_text(hjust = 0.5))+
+  scale_x_continuous(expand = c(0, 0), limits = c(0, NA),breaks=seq(0,90,10)) + 
+  scale_y_continuous(expand = c(0, 0), limits = c(0, NA))
 f.uni
 
-ggarrange(mex, f.arb, f.uni, ncol=3)
+ggarrange(mex, f.arb, f.uni, ncol=1)
 
 
 

@@ -53,6 +53,7 @@ g1 <- ggplot(m1 , aes(x=Sample, y=Est))+
   theme(text = element_text(family = "Calibri"))
 
 g1
+
 ###
 
 
@@ -62,8 +63,10 @@ g1
 # make a df with just model 2
 a <- combined[combined$Diam_distribution=="Arb",]
 
+m1
+
 library(ggplot2)
-ggplot(a , aes(x=Sample, y=Est))+
+ggplot(m1 , aes(x=Sample, y=Est))+
   geom_tile(aes(fill=p10*100), colour=NA)+
   scale_fill_gradientn(name="Percent of simulations with <10% difference",colors = my_colors, trans = "log10",breaks = my_breaks, labels = my_breaks) +
   ylab("Sampling strategy")+ xlab("Sample size (number of trees)") +

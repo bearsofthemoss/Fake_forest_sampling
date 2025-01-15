@@ -18,6 +18,9 @@ prop$dist_name<-factor(prop$distribution, levels=c( "Proportional","Parabolic",
                                                     "Skewed right","Skewed left",
                                                     "Truncated uniform left","Truncated uniform right"))
 
+###########
+
+
 #################
 
 # now average dataset
@@ -38,7 +41,21 @@ avg$dist_name<-factor(avg$distribution, levels=c( "Proportional","Parabolic",
                                                   "Skewed right","Skewed left",
                                                   "Truncated uniform left","Truncated uniform right"))
 
+##############
+head(avg)
 
+avg$group <- paste(avg$Est, avg$dist_name)
+
+ggplot(avg[avg$model=="Model 3",], 
+       aes(x=tree_count, y= value, color=Est))+
+  geom_point()+geom_line(aes(group=group))+
+  facet_grid(Diam_distribution~dist_name)+
+  labs(x="Sample size", y="Probability of <5% difference",
+       col="Diameter class sampling intensity")+
+  ylim(0,100)
+
+summary(avg$value)
+options(scipen=999)
 ###########
 
 
@@ -81,11 +98,16 @@ print(color_palette)
 
 head(ma)
 
-ggplot(ma[ma$average< 10000,], aes(x=average, y=less_than15 , col=as.factor(number_trees)))+
-  facet_grid( Diam_distribution ~ dist_name )+ 
+head(ma)
+
+arb <- ma[ma$Diam_distribution=="Arb",]
+dim(arb)
+
+ggplot(arb[arb$average< 10000,], aes(x=average, y=less_than15 , col=as.factor(number_trees)))+
+  facet_grid( Est ~ dist_name )+ 
   scale_x_log10()+
   geom_point()+
-  
+geom_hline(yintercept = 0.95, linetype="dashed")+  
   scale_color_manual(values = color_palette) +
 
   labs(x="Average uncertainty value (%)", 
