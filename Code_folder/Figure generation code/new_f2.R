@@ -6,32 +6,33 @@ library(ggpubr)
 library(readxl)
 library(reshape2)
 library(here)
+library(tidyr)
 
 
 #######################################
 
-fd <- file.path(here::here(),"Data_folder","forest_distributions")
+fd <- file.path(here::here(),"Data_folder")
 
 ##(for figure 1)
 
-arb<-read.csv(file.path(fd,"fakeforest_arbogast.csv"))
-uni<-read.csv(file.path(fd,"fakeforest_uniform.csv"))
-v2<-read.csv(file.path(fd,"fakeforest_V2.csv"))
-v2$y <- v2$dbh
-v2$x <- v2$biomass
+arb<-read.csv(file.path(fd,"fakeforest_arbogast.csv"),header=FALSE)
+uni<-read.csv(file.path(fd,"fakeforest_uniform.csv"),header=FALSE)
+J<-read.csv(file.path(fd,"fakeforestJ.csv"),header=FALSE)
 
 arb$type <- "Even-aged"
 uni$type <- "Uniform"
-v2$type <- "Reverse J"
+J$type <- "Reverse J"
 
 
-ff <- rbind( arb, uni, v2[ , c("x","y","type")])
+ff <- rbind( arb, uni, J)
 
-plot(ff$x, ff$y)
+head(ff)
 
-summary(ff$y)
+plot(ff$V1, ff$V2)
 
-ggplot(ff, aes(x=y, y=x))+
+summary(ff$V2)
+
+ggplot(ff, aes(x=V1, y=V2))+
   facet_wrap(~type, nrow=3)+
   stat_binhex(bins=80) +
   scale_fill_gradientn(
@@ -56,9 +57,9 @@ plot(uni$x ~ uni$y, main="uniform", xlab="Diameter",ylab="Biomass")
 lines(lowess(uni$y, uni$x), col="red", lwd=8)
 lines(smooth.spline(uni$y,uni$x, df=5),lwd=8, lty=3, col="yellow")
 
-plot(v2$biomass ~ v2$dbh, main="J", xlab="Diameter",ylab="Biomass")
-lines(lowess(v2$dbh, v2$biomass), col="red", lwd=8)
-lines(smooth.spline(v2$dbh,v2$biomass, df=5),lwd=8, lty=3, col="yellow")
+plot(J$biomass ~ J$dbh, main="J", xlab="Diameter",ylab="Biomass")
+lines(lowess(J$dbh, J$biomass), col="red", lwd=8)
+lines(smooth.spline(J$dbh,J$biomass, df=5),lwd=8, lty=3, col="yellow")
 
 
 

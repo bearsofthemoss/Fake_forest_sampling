@@ -5,7 +5,7 @@ library(ggplot2)
 
 
 # proportion dataset
-prop_path <- file.path(here::here(), "Data_folder","New_model_run_proportion")
+prop_path <- file.path(here::here(), "Data_folder","forest_distributions")
 
 prop <- read.csv(file.path( prop_path , "prop_combined.csv"))
 prop <- prop[,-1]

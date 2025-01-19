@@ -5,7 +5,7 @@ library(ggplot2)
 
 # this heat map to show the average absolute uncertainty
 
-avg_path <- file.path(here::here(), "Data_folder","New_model_run_averages")
+avg_path <- file.path(here::here(), "Data_folder","forest_distributions")
 
 
 avg <- read.csv(file.path( avg_path , "avg_combined.csv"))

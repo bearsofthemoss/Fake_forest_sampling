@@ -16,13 +16,14 @@ library(here)
 
 #######################################
 
-fd <- file.path(here::here(),"Data_folder","forest_distributions")
+fd <- file.path(here::here(),"Data_folder")
 
 ##(for figure 1)
 
-arb<-read.csv(file.path(fd,"fakeforest_arbogast.csv"))
-uni<-read.csv(file.path(fd,"fakeforest_uniform.csv"))
-v2<-read.csv(file.path(fd,"fakeforest_V2.csv"))
+arb<-read.csv(file.path(fd,"fakeforest_arbogast.csv"),header=FALSE)
+uni<-read.csv(file.path(fd,"fakeforest_uniform.csv"),header=FALSE)
+J<-read.csv(file.path(fd,"fakeforestJ.csv"),header=FALSE)
+
 
 # 
 # par(mfrow=c(3,2))
@@ -51,13 +52,15 @@ sc<-  as.data.frame(read_excel("Data_folder/forest_distributions/Alex_re_arrange
 #    height = par('din')[2])
 
 par(mfrow=c(1,3), mar=c(5,5,5,1))
-hist(v2$dbh, xlab="Diameter (cm)",main="(a) Reverse J distribution",ylab="Frequency", xlim=c(10,85),breaks=seq(10,85,5),cex.axis=1.5, cex.lab=1.9, cex.sub=1.8, cex.main=1.8, col="red")
-hist(arb$y, xlab="Diameter (cm)", main="(b) Even-aged distribution", xlim=c(10,85),breaks=seq(10,85,5),cex.axis=1.5, cex.lab=1.9, cex.sub=1.8, cex.main=1.8, col="orange")
-hist(uni$y, xlab="Diameter (cm)", main="(c) Uniform distribution", xlim=c(10,85), breaks=seq(10,85,5),cex.axis=1.5, cex.lab=1.9, cex.sub=1.8, cex.main=1.8, col="blue")
+hist(J$V1, xlab="Diameter (cm)",main="(a) Reverse J distribution",ylab="Frequency", xlim=c(10,101),breaks=seq(10,101,5),cex.axis=1.5, cex.lab=1.9, cex.sub=1.8, cex.main=1.8, col="red")
+hist(arb$V1, xlab="Diameter (cm)", main="(b) Even-aged distribution", xlim=c(10,101),breaks=seq(10,101,5),cex.axis=1.5, cex.lab=1.9, cex.sub=1.8, cex.main=1.8, col="orange")
+hist(uni$V1, xlab="Diameter (cm)", main="(c) Uniform distribution", xlim=c(10,101), breaks=seq(10,101,5),cex.axis=1.5, cex.lab=1.9, cex.sub=1.8, cex.main=1.8, col="blue")
 dev.off()
 
 
-
+summary(J$V1)
+summary(arb$V1)
+summary(uni$V1)
 
 ###############################################################
 ## FIGURE 1
@@ -67,25 +70,25 @@ summary(v2)
 summary(arb)
 summary(uni)
 
-mex<-ggplot(v2, aes(dbh))+geom_histogram(binwidth = 5, fill="red", color="black")+theme_classic()+
+mex<-ggplot(J, aes(V1))+geom_histogram(binwidth = 10, fill="red", color="black")+theme_classic()+
   ggtitle("Reverse J distribution")+xlab("")+ylab("Frequency")+theme(text=element_text(size=20))+
   theme(plot.title = element_text(hjust = 0.5))+
-  scale_x_continuous(expand = c(0, 0), limits = c(0, NA),breaks=seq(0,90,10)) + 
+  scale_x_continuous(expand = c(0, 0), limits = c(0, NA),breaks=seq(0,100,10)) + 
   scale_y_continuous(expand = c(0, 0), limits = c(0, NA))
 
 mex
 
-f.arb<-ggplot(arb, aes(y))+geom_histogram(binwidth = 5, fill="orange", color="black")+theme_classic()+
-  ggtitle("Even-aged distribution")+xlab("")+ylab("")+theme(text=element_text(size=20))+
+f.arb<-ggplot(arb, aes(V1))+geom_histogram(binwidth = 10, fill="orange", color="black")+theme_classic()+
+  ggtitle("Even-aged distribution")+xlab("")+ylab("Frequency")+theme(text=element_text(size=20))+
   theme(plot.title = element_text(hjust = 0.5))+
-  scale_x_continuous(expand = c(0, 0), limits = c(0, NA),breaks=seq(0,90,10)) + 
+  scale_x_continuous(expand = c(0, 0), limits = c(0, NA),breaks=seq(0,100,10)) + 
   scale_y_continuous(expand = c(0, 0), limits = c(0, NA))
   f.arb
 
-f.uni<-ggplot(uni, aes(y))+geom_histogram(binwidth = 5, fill="blue", color="black")+theme_classic()+
-  ggtitle("Uniform distribution")+xlab("Diameter (cm)")+ylab("")+theme(text=element_text(size=20))+
+f.uni<-ggplot(uni, aes(V1))+geom_histogram(binwidth = 10, fill="blue", color="black")+theme_classic()+
+  ggtitle("Uniform distribution")+xlab("Diameter (cm)")+ylab("Frequency")+theme(text=element_text(size=20))+
   theme(plot.title = element_text(hjust = 0.5))+
-  scale_x_continuous(expand = c(0, 0), limits = c(0, NA),breaks=seq(0,90,10)) + 
+  scale_x_continuous(expand = c(0, 0), limits = c(0, NA),breaks=seq(0,100,10)) + 
   scale_y_continuous(expand = c(0, 0), limits = c(0, NA))
 f.uni
 
