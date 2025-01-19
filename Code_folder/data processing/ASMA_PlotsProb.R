@@ -1,8 +1,5 @@
 
 
-####################################################################################
-################################ Uni_resultsModel1 #################################
-####################################################################################
 
 rm(list=ls(all=TRUE))
 
@@ -10,16 +7,26 @@ rm(list=ls(all=TRUE))
 library(R.matlab)
 library(ggplot2)
 library(gridExtra)
+library(here)
 
 # functions
-setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF")
-source("FunctionsASMA.R")
+#setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF")
+
+source(here::here("Code_folder","data processing","FunctionsASMA.R"))
+
+# Uni forest #### 
+
+## Uni_resultsModel1 #################################
+
 
 # Address to read inputs and save outputs
-setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF/1_Uni_resultsModel1")
+#setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF/1_Uni_resultsModel1")
+matlab_path <- here::here("Data_folder","matlab_output")
+
 
 # read in our data
-J_resultsModel1_Folder <- readMat("Uni_resultsModel1.mat")
+### Here Alex changed 'J_resultsModel1_Folder' to Uni_resultsModel1_Folder
+Uni_resultsModel1_Folder <-readMat(here::here( matlab_path, "Uni_resultsModel1.mat"))
 
 
 ##################################### 1 strategy
@@ -129,11 +136,9 @@ print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_ProbTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_MeanTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 
+## Alex ran up till here-  is this where the .csv is written for Uni model 1 results?
 
-
-####################################################################################
-################################ Uni_resultsModel3 #################################
-####################################################################################
+## Uni_resultsModel3 #################################
 
 rm(list=ls(all=TRUE))
 
@@ -261,11 +266,7 @@ print(fun_ProbTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_MeanTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 
 
-
-
-####################################################################################
-################################ Uni_resultsModel4 #################################
-####################################################################################
+## Uni_resultsModel4 ####
 
 rm(list=ls(all=TRUE))
 
@@ -394,9 +395,9 @@ print(fun_MeanTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 
 
 
-####################################################################################
-################################# J_resultsModel1 ##################################
-####################################################################################
+# J forest #### 
+
+## J_resultsModel1 ####
 
 rm(list=ls(all=TRUE))
 
@@ -524,10 +525,7 @@ print(fun_ProbTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_MeanTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 
 
-
-####################################################################################
-################################# J_resultsModel3 ##################################
-####################################################################################
+## J_resultsModel3 ####
 
 rm(list=ls(all=TRUE))
 
@@ -656,9 +654,7 @@ print(fun_MeanTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 
 
 
-####################################################################################
-################################# J_resultsModel4 ##################################
-####################################################################################
+## J_resultsModel4 ####
 
 rm(list=ls(all=TRUE))
 
@@ -787,9 +783,7 @@ print(fun_MeanTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 
 
 
-####################################################################################
-################################# 7_Arb_resultsModel1 ##################################
-####################################################################################
+# Arb Forest ####
 
 rm(list=ls(all=TRUE))
 
@@ -804,6 +798,8 @@ source("FunctionsASMA.R")
 
 # Address to read inputs and save outputs
 setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF/7_Arb_resultsModel1")
+
+## Arb_resultsModel1 ####
 
 # read in our data
 J_resultsModel1_Folder <- readMat("Arb_resultsModel1.mat")
@@ -918,9 +914,8 @@ print(fun_MeanTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 
 
 
-####################################################################################
-################################# 8_Arb_resultsModel3 ##################################
-####################################################################################
+## Arb_resultsModel3 ####
+
 
 rm(list=ls(all=TRUE))
 
@@ -1048,10 +1043,7 @@ print(fun_ProbTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_MeanTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 
 
-
-####################################################################################
-################################# 9_Arb_resultsModel4 ##################################
-####################################################################################
+## Arb_resultsModel4 ####
 
 rm(list=ls(all=TRUE))
 
