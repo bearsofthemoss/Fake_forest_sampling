@@ -6,8 +6,7 @@ library(ggplot2)
 fd <- file.path(here::here(),"Data_folder","forest_distributions")
 
 #(for figure 2)
-sc<-  read_excel(
-  file.path(fd,"Alex_re_arrange_4_29.xlsx"), sheet="size.class.ay")
+sc<-  read_excel(here::here("Alex_edited_Fig3 size.class.xlsx"))
 
 
 head(sc)
@@ -16,7 +15,7 @@ gs$row<-as.factor(gs$row)
 head(gs)
 table(gs$Distribution)
 
-gs[gs$Distribution=="Triangle shaped","Distribution"]<-"not used"
+gs[gs$Distribution=="Triangle shaped","Distribution"]<-"Triangular"
 gs[gs$Distribution=="Truncated triangles left","Distribution"]<-"not used"
 gs[gs$Distribution=="Truncated triangles right","Distribution"]<-"not used"
 
@@ -40,20 +39,24 @@ table(gs$Distribution)
 
 gs$group<-paste(gs$row, gs$Distribution)
 gs$Distribution<-factor(gs$Distribution, levels=c( "Reverse-J", "Even-aged distribution","Uniform",
-                                              "Parabolic","Weighted left","Weighted right"))
+                                              "Parabolic","Weighted left","Weighted right",
+                                              "Triangular"))
 
 gs<-gs[gs$value>0,]
 table(gs$size.class)
 
+table(gs$Distribution)
+
+
 tail(gs)
-gs$size.class[gs$size.class == "sc1"] <- "10-20"
-gs$size.class[gs$size.class == "sc2"] <- "20-30"
-gs$size.class[gs$size.class == "sc3"] <- "30-40"
-gs$size.class[gs$size.class == "sc4"] <- "40-50"
-gs$size.class[gs$size.class == "sc5"] <- "50-60"
-gs$size.class[gs$size.class == "sc6"] <- "60-70"
-gs$size.class[gs$size.class == "sc7"] <- "70-80"
-gs$size.class[gs$size.class == "sc8"] <- "80-90"
+gs$size.class[gs$size.class == "sc1"] <- "10-21"
+gs$size.class[gs$size.class == "sc2"] <- "22-32"
+gs$size.class[gs$size.class == "sc3"] <- "33-44"
+gs$size.class[gs$size.class == "sc4"] <- "45-55"
+gs$size.class[gs$size.class == "sc5"] <- "56-66"
+gs$size.class[gs$size.class == "sc6"] <- "66-78"
+gs$size.class[gs$size.class == "sc7"] <- "79-89"
+gs$size.class[gs$size.class == "sc8"] <- "90-100"
 
 table(gs$Distribution)
 
@@ -108,9 +111,10 @@ gs[gs$Distribution=="Uniform","new_facet"] <- "Proportional"
 
 gs$new_order <- factor(gs$new_order, levels=c("Reverse-J","Even-aged distribution","Uniform","1","2","3","4","5","6","7","8"))
 
-gs$new_facet <- factor(gs$new_facet, levels=c("Proportional","Parabolic","Skewed left","Skewed right","Weighted left","Weighted right"))
+gs$new_facet <- factor(gs$new_facet, levels=c("Proportional","Parabolic","Skewed left","Skewed right","Weighted left","Weighted right", "Triangular"))
 
 
+table(gs$new_facet)
 ## give the color assignment
   gs[gs$new_order=="1","sel_shape"] <- "1"    
   gs[gs$new_order=="2","sel_shape"] <- "2"    
@@ -126,7 +130,7 @@ gs$new_facet <- factor(gs$new_facet, levels=c("Proportional","Parabolic","Skewed
 
   head(gs)
   
-ggplot(gs, aes(x=size.class, y=new_order, size=value/100,
+f3 <- ggplot(gs, aes(x=size.class, y=new_order, size=value/100,
                col=value/100,
                shape=sel_shape))+geom_point()+
   facet_wrap(~new_facet, ncol=2, scales="free_y")+
@@ -147,4 +151,11 @@ ggplot(gs, aes(x=size.class, y=new_order, size=value/100,
   theme(legend.position = "right")+
   scale_shape_manual(values=c( 8, 14,10, 12,  9,  3, 17, 15,19))+
   geom_hline(yintercept=c(1.5, 2.5, 3.5,4.5,5.5,6.5,7.6), linetype= "dashed")
+
+
+dpi=900    #pixels per square inch
+tiff(here::here("Fig_3.tif"), width=10*dpi, height=8*dpi, res=dpi)
+f3
+dev.off()
+
 

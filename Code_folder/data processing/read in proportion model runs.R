@@ -54,7 +54,7 @@ prop_combined<- rbind(
 prop_combined[prop_combined$distribution=="Triangular left","distribution" ]<- "Skewed left"
 prop_combined[prop_combined$distribution=="Triangular rigth","distribution" ]<- "Skewed right"
 prop_combined[prop_combined$distribution=="Truncated Triangles","distribution" ]<- "Truncated triangle 16 X"
-prop_combined[prop_combined$distribution=="Triangular Ushaped","distribution" ]<- "U-shaped triangle"
+prop_combined[prop_combined$distribution=="Triangular Ushaped","distribution" ]<- "Triangular"
 
 
 ## add left and right truncated uniform
@@ -81,7 +81,7 @@ table(prop_combined$distribution)
 # 
 prop_combined$dist_name<-factor(prop_combined$distribution, levels=c( "Proportional","Parabolic",
                                                             "Skewed right","Skewed left",
-                                                            "Truncated uniform left","Truncated uniform right"))
+                                                            "Truncated uniform left","Truncated uniform right","Triangular"))
 
 # Removes U shaped triangle 
 prop_combined <- prop_combined[!is.na(prop_combined$dist_name),]

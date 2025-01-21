@@ -16,7 +16,7 @@ prop$Sample <- factor(prop$Sample,
 
 prop$dist_name<-factor(prop$distribution, levels=c( "Proportional","Parabolic",
                                                     "Skewed right","Skewed left",
-                                                    "Truncated uniform left","Truncated uniform right"))
+                                                    "Truncated uniform left","Truncated uniform right","Triangular"))
 
 ###########
 
@@ -33,7 +33,7 @@ table(prop$dist_name)
 
 prop$dist_name<-factor(prop$distribution, levels=c( "Proportional","Parabolic",
 #                                                  "Skewed right","Skewed left",
-                                                  "Weighted left","Weighted right"))
+                                                  "Weighted left","Weighted right","Triangular"))
 
 ##############
 head(prop)
@@ -42,7 +42,8 @@ prop <- prop[!is.na(prop$dist_name), ]
 prop$group <- paste(prop$Est, prop$dist_name)
 
 
-prop$distribution <- factor(prop$distribution, levels=c("Proportional","Parabolic","Weighted left","Weighted right"))
+prop$distribution <- factor(prop$distribution, levels=c("Proportional","Parabolic",
+                                                        "Weighted left","Weighted right", "Triangular"))
 
 head(prop)
 table(prop$Diam_distribution, prop$distribution)
@@ -59,27 +60,29 @@ table(only_prop$Diam_distribution)
 prop_para <- only_prop
 prop_wL <- only_prop
 prop_wR <- only_prop
+prop_tri <- only_prop
 
 # hide in prop as an est
 prop_para$Est <- "Proportional"
 prop_wL$Est <- "Proportional"
 prop_wR$Est<- "Proportional"
+prop_tri$Est<- "Proportional"
 
 # Now rename the distribution so it groups right
 prop_para$distribution <- "Parabolic"
 prop_wL$distribution <- "Weighted left"
 prop_wR$distribution <- "Weighted right"
-
+prop_tri$distribution <- "Triangular"
 
 # combine in the proportional, now hidden as an 'Est'
-use_prop <- rbind(no_prop, prop_para, prop_wL, prop_wR) 
+use_prop <- rbind(no_prop, prop_para, prop_wL, prop_wR, prop_tri) 
 
 
 use_prop$sel_color <- use_prop$Est=="Proportional"
 use_prop[use_prop$sel_color=="FALSE","sel_color"] <- "Alternate sampling strategy"
 use_prop[use_prop$sel_color=="TRUE","sel_color"] <- "Proportional to diameter distribution"
 
-ggplot(use_prop[use_prop$model=="Model 3",], 
+f5_fig <- ggplot(use_prop[use_prop$model=="Model 3",], 
        aes(x=(tree_count), y= p10,col=Est, 
            shape= as.factor( Est)))+
   geom_point()+geom_line(aes(group=group))+
@@ -95,3 +98,10 @@ ggplot(use_prop[use_prop$model=="Model 3",],
   scale_x_log10()+
   theme_bw()+theme(panel.grid = element_blank())
 
+
+f5_fig
+
+dpi=300    #pixels per square inch
+tiff(here::here("Fig_5.tif"), width=10*dpi, height=5*dpi, res=dpi)
+f5_fig
+dev.off()

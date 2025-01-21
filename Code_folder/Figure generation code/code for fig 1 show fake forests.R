@@ -71,7 +71,7 @@ summary(arb)
 summary(uni)
 
 mex<-ggplot(J, aes(V1))+geom_histogram(binwidth = 10, fill="red", color="black")+theme_classic()+
-  ggtitle("Reverse J distribution")+xlab("")+ylab("Frequency")+theme(text=element_text(size=20))+
+  ggtitle("Reverse J")+xlab("")+ylab("Frequency")+theme(text=element_text(size=20))+
   theme(plot.title = element_text(hjust = 0.5))+
   scale_x_continuous(expand = c(0, 0), limits = c(0, NA),breaks=seq(0,100,10)) + 
   scale_y_continuous(expand = c(0, 0), limits = c(0, NA))
@@ -79,20 +79,26 @@ mex<-ggplot(J, aes(V1))+geom_histogram(binwidth = 10, fill="red", color="black")
 mex
 
 f.arb<-ggplot(arb, aes(V1))+geom_histogram(binwidth = 10, fill="orange", color="black")+theme_classic()+
-  ggtitle("Even-aged distribution")+xlab("")+ylab("Frequency")+theme(text=element_text(size=20))+
+  ggtitle("Even-aged")+xlab("")+ylab("Frequency")+theme(text=element_text(size=20))+
   theme(plot.title = element_text(hjust = 0.5))+
   scale_x_continuous(expand = c(0, 0), limits = c(0, NA),breaks=seq(0,100,10)) + 
   scale_y_continuous(expand = c(0, 0), limits = c(0, NA))
   f.arb
 
 f.uni<-ggplot(uni, aes(V1))+geom_histogram(binwidth = 10, fill="blue", color="black")+theme_classic()+
-  ggtitle("Uniform distribution")+xlab("Diameter (cm)")+ylab("Frequency")+theme(text=element_text(size=20))+
+  ggtitle("Uniform")+xlab("Diameter (cm)")+ylab("Frequency")+theme(text=element_text(size=20))+
   theme(plot.title = element_text(hjust = 0.5))+
   scale_x_continuous(expand = c(0, 0), limits = c(0, NA),breaks=seq(0,100,10)) + 
   scale_y_continuous(expand = c(0, 0), limits = c(0, NA))
 f.uni
 
+
+dpi=300    #pixels per square inch
+tiff(here::here("Fig_1.tif"), width=10*dpi, height=5*dpi, res=dpi)
 ggarrange(mex, f.arb, f.uni, ncol=1)
+dev.off()
+
+
 
 
 

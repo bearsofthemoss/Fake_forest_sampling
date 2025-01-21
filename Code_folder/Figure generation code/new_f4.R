@@ -10,7 +10,7 @@ avg_path <- file.path(here::here(), "Data_folder","forest_distributions")
 
 avg <- read.csv(file.path( avg_path , "avg_combined.csv"))
 avg <- avg[,-1]
-
+table(avg$distribution)
 
 # order the levels
 avg$Sample <- factor(avg$Sample, 
@@ -19,10 +19,14 @@ avg$Sample <- factor(avg$Sample,
 avg[avg$distribution== "Truncated uniform left", "distribution"] <- "Weighted left"
 avg[avg$distribution== "Truncated uniform right", "distribution"] <- "Weighted right"
 
+avg[avg$distribution== "Triangle shaped", "distribution"] <- "Triangular"
+
+table(avg$dist_name)
 
 avg$dist_name<-factor(avg$distribution, levels=c( "Proportional","Parabolic",
                                                 #  "Skewed right","Skewed left",
-                                                  "Weighted left","Weighted right"))
+                                                  "Weighted left","Weighted right",
+                                                "Triangular"))
 
 
 
@@ -34,7 +38,7 @@ avg <- avg[!is.na(avg$dist_name),]
 
 
 # Define the colors and breakpoints
-my_colors <- rev(c("darkred", "red", "orange", "yellow", "lightgreen", "green", "darkgreen","darkgreen"))
+my_colors <- rev(c("darkred", "red", "orange", "tan", "lightgreen", "darkgreen"))
 my_breaks = c(1,5,50, 500 )
 
 summary(avg$value)
@@ -48,8 +52,10 @@ a <- avg[avg$model=="Model 3",]
 dim(a)
  a <- a[a$value < 2000000,]
 
+ table(a$dist_name)
+ 
 library(ggplot2)
-ggplot(a , aes(x=Sample, y=Est))+
+f4_fig <- ggplot(a , aes(x=Sample, y=Est))+
   geom_tile(aes(fill=value), colour=NA)+
   # scale_fill_gradientn(name="Percent of simulations with <10% difference",colors = my_colors,
   #                      trans = "log10",
@@ -74,3 +80,14 @@ ggplot(a , aes(x=Sample, y=Est))+
   theme(plot.title = element_text(hjust = 0.5),strip.text.y = element_text(size = 8, angle = 0))+
   scale_y_continuous(breaks= seq(1,16,1))+
   theme(text = element_text(family = "Calibri"))
+
+f4_fig
+
+dpi=300    #pixels per square inch
+tiff(here::here("Fig_4.tif"), width=10*dpi, height=5*dpi, res=dpi)
+
+f4_fig
+dev.off()
+
+
+

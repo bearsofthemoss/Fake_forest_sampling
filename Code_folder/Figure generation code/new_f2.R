@@ -19,6 +19,10 @@ arb<-read.csv(file.path(fd,"fakeforest_arbogast.csv"),header=FALSE)
 uni<-read.csv(file.path(fd,"fakeforest_uniform.csv"),header=FALSE)
 J<-read.csv(file.path(fd,"fakeforestJ.csv"),header=FALSE)
 
+
+biom <- read.csv(here::here("Data_folder","AmericasData.csv"))
+
+
 arb$type <- "Even-aged"
 uni$type <- "Uniform"
 J$type <- "Reverse J"
@@ -33,34 +37,37 @@ plot(ff$V1, ff$V2)
 summary(ff$V2)
 
 ggplot(ff, aes(x=V1, y=V2))+
-  facet_wrap(~type, nrow=3)+
+ 
+  facet_wrap(~type, nrow=1)+
   stat_binhex(bins=80) +
   scale_fill_gradientn(
-    colors=1:6,
-    limits = c(0,850))+
+    colors=2:7,
+    trans="log10",
+    limits = c(1,400))+
+  geom_point(data=biom, aes(x=DBH.cm., y=Dry.total.AGB.kg.), color="black")+
 #  xlim(0,90)+
-  labs(x="Diameter (cm)",y="Biomass",
-       fill="Count")+
+  labs(x="Diameter (cm)",y="Biomass (kg)",
+       fill="Count of simulated trees")+
   theme_bw()+theme(panel.grid = element_blank())+
  scale_x_continuous(expand = c(0, 0), limits=c(0,90)) + scale_y_continuous(expand = c(0, 0))
 
-### If you wanted to add lines to base R figures
-# fitting lowess and spline
-par(mfrow=c(1,3))
-
-plot(arb$x ~ arb$y, main="arbogast", xlab="Diameter",ylab="Biomass")
-lines(lowess(arb$y, arb$x), col="red", lwd=8)
-lines(smooth.spline(arb$y,arb$x, df=5),lwd=8, lty=3, col="yellow")
 
 
-plot(uni$x ~ uni$y, main="uniform", xlab="Diameter",ylab="Biomass")
-lines(lowess(uni$y, uni$x), col="red", lwd=8)
-lines(smooth.spline(uni$y,uni$x, df=5),lwd=8, lty=3, col="yellow")
+# also this one
 
-plot(J$biomass ~ J$dbh, main="J", xlab="Diameter",ylab="Biomass")
-lines(lowess(J$dbh, J$biomass), col="red", lwd=8)
-lines(smooth.spline(J$dbh,J$biomass, df=5),lwd=8, lty=3, col="yellow")
+f2 <- ggplot(biom, aes(x=DBH.cm. , y=Dry.total.AGB.kg., col=Site))+
+  geom_point(data=J, aes(x=V1, y=V2), alpha=0.5, color="gray")+
+  geom_point()+
+  labs(x="Diameter (cm)", y="Dry total AGB (kg)")+
+  theme_bw()+
+  #facet_wrap(~Site)+
+  scale_color_manual(values=c("blue","purple","orange","brown","red"))+
+  xlim(0,100)
 
+dpi=300    #pixels per square inch
+tiff(here::here("Fig_2.tif"), width=10*dpi, height=5*dpi, res=dpi)
+f2
+dev.off()
 
 
 

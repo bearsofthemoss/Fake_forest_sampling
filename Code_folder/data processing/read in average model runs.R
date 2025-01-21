@@ -57,6 +57,7 @@ avg_combined <- gather(avg_combined, "tree_count","value",2:11 )
 
 names(avg_combined)
 
+table(avg_combined$distribution)
 
 ###### Make graphs with the averages
 
@@ -65,7 +66,7 @@ names(avg_combined)
 avg_combined[avg_combined$distribution=="Triangular left","distribution" ]<- "Skewed left"
 avg_combined[avg_combined$distribution=="Triangular rigth","distribution" ]<- "Skewed right"
 avg_combined[avg_combined$distribution=="Truncated Triangles","distribution" ]<- "Truncated triangle 16 X"
-avg_combined[avg_combined$distribution=="Triangular Ushaped","distribution" ]<- "U-shaped triangle"
+avg_combined[avg_combined$distribution=="Triangular Ushaped","distribution" ]<- "Triangular"
 
 
 ## add left and right truncated uniform
@@ -92,7 +93,7 @@ table(avg_combined$distribution)
 # 
 avg_combined$dist_name<-factor(avg_combined$distribution, levels=c( "Proportional","Parabolic",
                                                             "Skewed right","Skewed left",
-                                                            "Truncated uniform left","Truncated uniform right"))
+                                                            "Truncated uniform left","Truncated uniform right", "Triangular"))
 
 # Removes U shaped triangle 
 avg_combined <- avg_combined[!is.na(avg_combined$dist_name),]
