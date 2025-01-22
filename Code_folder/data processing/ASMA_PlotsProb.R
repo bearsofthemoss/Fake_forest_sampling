@@ -26,6 +26,9 @@ Uni_resultsModel1_Folder <-readMat(here::here( "Data_folder","matlab_output",
 
 # Address to save outputs
 #setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF/1_Uni_resultsModel1")
+if(!exists(here::here("Data_folder","forest_distributions","1_Uni_resultsModel1"))){
+  dir.create(here::here("Data_folder","forest_distributions","1_Uni_resultsModel1"))}
+
 setwd(here::here("Data_folder","forest_distributions","1_Uni_resultsModel1"))
 
 
@@ -138,6 +141,7 @@ print(fun_MeanTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 
 ## Alex ran up till here-  is this where the .csv is written for Uni model 1 results?
 
+ 
 ## Uni_resultsModel3 #################################
 
 rm(list=ls(all=TRUE))
@@ -159,6 +163,9 @@ Uni_resultsModel3_Folder <-readMat(here::here( "Data_folder","matlab_output",
                                                "Uni_resultsModel3.mat"))
 
 # Address to read inputs and save outputs
+if(!exists(here::here("Data_folder","forest_distributions","2_Uni_resultsModel3"))){
+  dir.create(here::here("Data_folder","forest_distributions","2_Uni_resultsModel3"))}
+
 setwd(here::here("Data_folder","forest_distributions","2_Uni_resultsModel3"))
 
 
@@ -288,6 +295,10 @@ source(here::here("Code_folder","data processing","FunctionsASMA.R"))
 # read in our data
 Uni_resultsModel4_Folder <-readMat(here::here( "Data_folder","matlab_output",
                                                "Uni_resultsModel4.mat"))
+
+if(!exists(here::here("Data_folder","forest_distributions","3_Uni_resultsModel4"))){
+  dir.create(here::here("Data_folder","forest_distributions","3_Uni_resultsModel4"))}
+
 
 # Address to read inputs and save outputs
 setwd(here::here("Data_folder","forest_distributions","3_Uni_resultsModel4"))
@@ -426,6 +437,9 @@ J_resultsModel1_Folder <-readMat(here::here("Data_folder","matlab_output",
 
 # Address to read inputs and save outputs
 #setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF/4_J_resultsModel1")
+if(!exists(here::here("Data_folder","forest_distributions","4_J_resultsModel1"))){
+  dir.create(here::here("Data_folder","forest_distributions","4_J_resultsModel1"))}
+
 setwd(here::here("Data_folder","forest_distributions","4_J_resultsModel1"))
 
 
@@ -559,6 +573,8 @@ J_resultsModel3_Folder <-readMat(here::here("Data_folder","matlab_output",
 
 # # Address to read inputs and save outputs
 # setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF/5_J_resultsModel3")
+if(!exists(here::here("Data_folder","forest_distributions","5_J_resultsModel3"))){
+  dir.create(here::here("Data_folder","forest_distributions","5_J_resultsModel3"))}
 setwd(here::here("Data_folder","forest_distributions","5_J_resultsModel3"))
 
 
@@ -693,7 +709,8 @@ J_resultsModel4_Folder <-readMat(here::here("Data_folder","matlab_output",
 
 # Address to read inputs and save outputs
 #setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF/6_J_resultsModel4")
-setwd(here::here("Data_folder","forest_distributions","6_J_resultsModel4"))
+if(!exists(here::here("Data_folder","forest_distributions","6_J_resultsModel4"))){
+  dir.create(here::here("Data_folder","forest_distributions","6_J_resultsModel4"))}
 
 ##################################### 1 strategy
 
@@ -827,6 +844,9 @@ Arb_resultsModel1_Folder <-readMat(here::here("Data_folder", "matlab_output",
 
 # Address to read inputs and save outputs
 #setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF/7_Arb_resultsModel1")
+if(!exists(here::here("Data_folder","forest_distributions","7_Arb_resultsModel1"))){
+  dir.create(here::here("Data_folder","forest_distributions","7_Arb_resultsModel1"))}
+
 setwd(here::here("Data_folder","forest_distributions","7_Arb_resultsModel1"))
 
 
@@ -962,6 +982,9 @@ Arb_resultsModel3_Folder <-readMat(here::here("Data_folder", "matlab_output",
 
 # Address to read inputs and save outputs
 #setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF/8_Arb_resultsModel3")
+if(!exists(here::here("Data_folder","forest_distributions","8_Arb_resultsModel3"))){
+  dir.create(here::here("Data_folder","forest_distributions","8_Arb_resultsModel3"))}
+
 setwd(here::here("Data_folder","forest_distributions","8_Arb_resultsModel3"))
 
 ##################################### 1 strategy
@@ -1094,6 +1117,9 @@ Arb_resultsModel4_Folder <-readMat(here::here("Data_folder", "matlab_output",
 
 # Address to read inputs and save outputs
 #setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF/9_Arb_resultsModel4")
+if(!exists(here::here("Data_folder","forest_distributions","9_Arb_resultsModel4"))){
+  dir.create(here::here("Data_folder","forest_distributions","9_Arb_resultsModel4"))}
+
 setwd(here::here("Data_folder","forest_distributions","9_Arb_resultsModel4"))
 
 ##################################### 1 strategy
