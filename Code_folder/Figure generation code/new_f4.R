@@ -23,7 +23,8 @@ avg[avg$distribution== "Triangle shaped", "distribution"] <- "Triangular"
 
 table(avg$dist_name)
 
-avg$dist_name<-factor(avg$distribution, levels=c( "Proportional","Parabolic",
+avg$dist_name<-factor(avg$distribution, levels=c( "Proportional",
+                                                  #"Parabolic",
                                                 #  "Skewed right","Skewed left",
                                                   "Weighted left","Weighted right",
                                                 "Triangular"))
@@ -38,13 +39,12 @@ avg <- avg[!is.na(avg$dist_name),]
 
 
 # Define the colors and breakpoints
-my_colors <- rev(c("darkred", "red", "orange", "tan", "lightgreen", "darkgreen"))
+my_colors <- rev(c("darkred","darkred","darkred","darkred","darkred","darkred", "red", "orange", "tan", "lightgreen", "darkgreen"))
 my_breaks = c(1,5,50, 500 )
 
 summary(avg$value)
 
 ##########################################################
-head(a)
 
 
 

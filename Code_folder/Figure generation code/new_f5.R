@@ -14,7 +14,8 @@ prop <- prop[,-1]
 prop$Sample <- factor(prop$Sample, 
                       levels=c("n10","n15", "n30", "n45","n80","n130","n215","n360","n600","n1000"))
 
-prop$dist_name<-factor(prop$distribution, levels=c( "Proportional","Parabolic",
+prop$dist_name<-factor(prop$distribution, levels=c( "Proportional",
+                                                    #"Parabolic",
                                                     "Skewed right","Skewed left",
                                                     "Truncated uniform left","Truncated uniform right","Triangular"))
 
@@ -31,7 +32,8 @@ prop[prop$distribution=="Truncated uniform right", "distribution"] <- "Weighted 
 
 table(prop$dist_name)
 
-prop$dist_name<-factor(prop$distribution, levels=c( "Proportional","Parabolic",
+prop$dist_name<-factor(prop$distribution, levels=c( "Proportional",
+                                                    #"Parabolic",
 #                                                  "Skewed right","Skewed left",
                                                   "Weighted left","Weighted right","Triangular"))
 
@@ -42,7 +44,8 @@ prop <- prop[!is.na(prop$dist_name), ]
 prop$group <- paste(prop$Est, prop$dist_name)
 
 
-prop$distribution <- factor(prop$distribution, levels=c("Proportional","Parabolic",
+prop$distribution <- factor(prop$distribution, levels=c("Proportional",
+                                                        #"Parabolic",
                                                         "Weighted left","Weighted right", "Triangular"))
 
 head(prop)
@@ -75,7 +78,9 @@ prop_wR$distribution <- "Weighted right"
 prop_tri$distribution <- "Triangular"
 
 # combine in the proportional, now hidden as an 'Est'
-use_prop <- rbind(no_prop, prop_para, prop_wL, prop_wR, prop_tri) 
+use_prop <- rbind(no_prop,
+                  # prop_para,
+                  prop_wL, prop_wR, prop_tri) 
 
 
 use_prop$sel_color <- use_prop$Est=="Proportional"

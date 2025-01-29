@@ -6,7 +6,7 @@ library(ggplot2)
 fd <- file.path(here::here(),"Data_folder","forest_distributions")
 
 #(for figure 2)
-sc<-  read_excel(here::here("Alex_edited_Fig3 size.class.xlsx"))
+sc<-  read_excel(here::here(fd,"Alex_re_arrange_4_29.xlsx"))
 
 
 head(sc)
@@ -22,6 +22,8 @@ gs[gs$Distribution=="Truncated triangles right","Distribution"]<-"not used"
 
 gs[gs$Distribution=="Triangular left","Distribution"]<- "not used" # was skewed left
 gs[gs$Distribution=="Triangular right","Distribution"]<- "not used"# was skewed right
+
+gs[gs$Distribution=="Parabolic","Distribution"]<- "not used"# was skewed right
 
 
 gs <- gs[!gs$Distribution=="not used", ]
