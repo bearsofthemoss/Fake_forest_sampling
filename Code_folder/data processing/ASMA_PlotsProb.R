@@ -22,7 +22,7 @@ source(here::here("Code_folder","data processing","FunctionsASMA.R"))
 # read in our data
 ### Here Alex changed 'J_resultsModel1_Folder' to Uni_resultsModel1_Folder
 Uni_resultsModel1_Folder <-readMat(here::here( "Data_folder","matlab_output",
-                                               "Uni_resultsModel1.mat"))
+                                               "Uni_resultsModel1_v7.mat"))
 
 # Address to save outputs
 #setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF/1_Uni_resultsModel1")
@@ -160,7 +160,7 @@ source(here::here("Code_folder","data processing","FunctionsASMA.R"))
 # read in our data
 #J_resultsModel3_Folder <- readMat("Uni_resultsModel3.mat")
 Uni_resultsModel3_Folder <-readMat(here::here( "Data_folder","matlab_output",
-                                               "Uni_resultsModel3.mat"))
+                                               "Uni_resultsModel3_v7.mat"))
 
 # Address to read inputs and save outputs
 if(!exists(here::here("Data_folder","forest_distributions","2_Uni_resultsModel3"))){
@@ -294,7 +294,7 @@ source(here::here("Code_folder","data processing","FunctionsASMA.R"))
 
 # read in our data
 Uni_resultsModel4_Folder <-readMat(here::here( "Data_folder","matlab_output",
-                                               "Uni_resultsModel4.mat"))
+                                               "Uni_resultsModel4_v7.mat"))
 
 if(!exists(here::here("Data_folder","forest_distributions","3_Uni_resultsModel4"))){
   dir.create(here::here("Data_folder","forest_distributions","3_Uni_resultsModel4"))}
@@ -433,7 +433,7 @@ source(here::here("Code_folder","data processing","FunctionsASMA.R"))
 # read in our data
 #J_resultsModel1_Folder <- readMat("J_resultsModel1.mat")
 J_resultsModel1_Folder <-readMat(here::here("Data_folder","matlab_output",
-                                            "J_resultsModel1.mat"))
+                                            "J_resultsModel1_v7.mat"))
 
 # Address to read inputs and save outputs
 #setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF/4_J_resultsModel1")
@@ -569,7 +569,7 @@ source(here::here("Code_folder","data processing","FunctionsASMA.R"))
 # # read in our data
 # J_resultsModel3_Folder <- readMat("J_resultsModel3.mat")
 J_resultsModel3_Folder <-readMat(here::here("Data_folder","matlab_output",
-                                            "J_resultsModel3.mat"))
+                                            "J_resultsModel3_v7.mat"))
 
 # # Address to read inputs and save outputs
 # setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF/5_J_resultsModel3")
@@ -705,7 +705,7 @@ source(here::here("Code_folder","data processing","FunctionsASMA.R"))
 # read in our data
 # J_resultsModel4_Folder <- readMat("J_resultsModel4.mat")
 J_resultsModel4_Folder <-readMat(here::here("Data_folder","matlab_output",
-                                            "J_resultsModel4.mat"))
+                                            "J_resultsModel4_v7.mat"))
 
 # Address to read inputs and save outputs
 #setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF/6_J_resultsModel4")
@@ -840,7 +840,7 @@ source(here::here("Code_folder","data processing","FunctionsASMA.R"))
 # read in our data
 # Arb_resultsModel1_Folder <- readMat("Arb_resultsModel1.mat")
 Arb_resultsModel1_Folder <-readMat(here::here("Data_folder", "matlab_output",
-                                            "Arb_resultsModel1.mat"))
+                                            "Arb_resultsModel1_v7.mat"))
 
 # Address to read inputs and save outputs
 #setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF/7_Arb_resultsModel1")
@@ -978,7 +978,7 @@ source(here::here("Code_folder","data processing","FunctionsASMA.R"))
 # read in our data
 #Arb_resultsModel3_Folder <- readMat("Arb_resultsModel3.mat")
 Arb_resultsModel3_Folder <-readMat(here::here("Data_folder", "matlab_output",
-                                              "Arb_resultsModel3.mat"))
+                                              "Arb_resultsModel3_v7.mat"))
 
 # Address to read inputs and save outputs
 #setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF/8_Arb_resultsModel3")
@@ -1113,7 +1113,7 @@ source(here::here("Code_folder","data processing","FunctionsASMA.R"))
 # read in our data
 #Arb_resultsModel4_Folder <- readMat("Arb_resultsModel4.mat")
 Arb_resultsModel4_Folder <-readMat(here::here("Data_folder", "matlab_output",
-                                              "Arb_resultsModel4.mat"))
+                                              "Arb_resultsModel4_v7.mat"))
 
 # Address to read inputs and save outputs
 #setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF/9_Arb_resultsModel4")

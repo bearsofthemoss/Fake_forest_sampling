@@ -60,19 +60,19 @@ dim(no_prop)
 table(only_prop$Diam_distribution)
 
 # now make a parab, skew weighted left, and weighted right version
-prop_para <- only_prop
+#prop_para <- only_prop
 prop_wL <- only_prop
 prop_wR <- only_prop
 prop_tri <- only_prop
 
 # hide in prop as an est
-prop_para$Est <- "Proportional"
+#prop_para$Est <- "Proportional"
 prop_wL$Est <- "Proportional"
 prop_wR$Est<- "Proportional"
 prop_tri$Est<- "Proportional"
 
 # Now rename the distribution so it groups right
-prop_para$distribution <- "Parabolic"
+#prop_para$distribution <- "Parabolic"
 prop_wL$distribution <- "Weighted left"
 prop_wR$distribution <- "Weighted right"
 prop_tri$distribution <- "Triangular"
@@ -87,7 +87,7 @@ use_prop$sel_color <- use_prop$Est=="Proportional"
 use_prop[use_prop$sel_color=="FALSE","sel_color"] <- "Alternate sampling strategy"
 use_prop[use_prop$sel_color=="TRUE","sel_color"] <- "Proportional to diameter distribution"
 
-f5_fig <- ggplot(use_prop[use_prop$model=="Model 3",], 
+f5_fig <- ggplot(use_prop[use_prop$model=="Model 1",], 
        aes(x=(tree_count), y= p10,col=Est, 
            shape= as.factor( Est)))+
   geom_point()+geom_line(aes(group=group))+
@@ -101,7 +101,8 @@ f5_fig <- ggplot(use_prop[use_prop$model=="Model 3",],
                      values = c( 8, 14,10, 12,  9,  3, 17, 15,19))+
   labs(x="Sample size", y="Probability of <10% difference")+
   scale_x_log10()+
-  theme_bw()+theme(panel.grid = element_blank())
+  theme_bw()+theme(panel.grid = element_blank())+
+  ggtitle("Model 1")
 
 
 f5_fig

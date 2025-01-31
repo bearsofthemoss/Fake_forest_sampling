@@ -121,7 +121,7 @@ tur[tur$Est==9,"Est"] <-  7
 trun_8 <- prop_combined[prop_combined$Est==8 &
                           prop_combined$distribution=="Truncated uniform left",]
 
-trun_8[trun_8$Est==8, "Est"] <- 1
+trun_8[trun_8$Est==8, "Est"] <- 8
 
 # now combine tur and trun_8
 tur <-  rbind(tur, trun_8)

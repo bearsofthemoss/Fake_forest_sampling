@@ -136,7 +136,7 @@ tur_avg <-  tur_avg[tur_avg$Est!=16, ]
  trun_8 <- avg_combined[avg_combined$Est==8 &
                           avg_combined$distribution=="Truncated uniform left",]
 
- trun_8[trun_8$Est==8, "Est"] <- 1
+ trun_8[trun_8$Est==8, "Est"] <- 8
  
 # now combine tur_avg and trun_8
 tur_avg <-  rbind(tur_avg, trun_8)
