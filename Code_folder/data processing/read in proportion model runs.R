@@ -34,7 +34,7 @@ m4Uni <- read_and_label("3", "4", "Uni")
 
 m1J <- read_and_label("4", "1", "J")
 m3J <- read_and_label("5", "3", "J")
-m4J <- read_and_label("6", "4", "J")
+#m4J <- read_and_label("6", "4", "J")
 
 m1Arb <- read_and_label("7", "1", "Arb")
 m3Arb <- read_and_label("8", "3", "Arb")
@@ -42,7 +42,7 @@ m4Arb <- read_and_label("9", "4", "Arb")
 
 prop_combined<- rbind(
   m1Uni, m3Uni, m4Uni,
-  m1J, m3J, m4J,
+  m1J, m3J, #m4J,
   m1Arb, m3Arb, m4Arb
 )
 
@@ -103,17 +103,33 @@ prop_combined$Sample <- factor(prop_combined$Sample,
 tur <- prop_combined[prop_combined$distribution=="Truncated uniform right", ]
 
 
-tur[tur$Est==16,"Est"] <- 1
-tur[tur$Est==15,"Est"] <- 2
-tur[tur$Est==14,"Est"] <- 3
-tur[tur$Est==13,"Est"] <- 4
-tur[tur$Est==12,"Est"] <- 5
-tur[tur$Est==11,"Est"] <- 6
-tur[tur$Est==10,"Est"] <- 7
-tur[tur$Est==9,"Est"] <- 8
+
+# exclude est 16
+tur <-  tur[tur$Est!=16, ] 
+
+# relabel est15 to be 1
+
+tur[tur$Est==15,"Est"] <- 1
+tur[tur$Est==14,"Est"] <- 2
+tur[tur$Est==13,"Est"] <- 3
+tur[tur$Est==12,"Est"] <- 4
+tur[tur$Est==11,"Est"] <- 5
+tur[tur$Est==10,"Est"] <- 6
+tur[tur$Est==9,"Est"] <-  7
+
+# for row 8; take EST 8 from trunc L
+trun_8 <- prop_combined[prop_combined$Est==8 &
+                          prop_combined$distribution=="Truncated uniform left",]
+
+trun_8[trun_8$Est==8, "Est"] <- 1
+
+# now combine tur and trun_8
+tur <-  rbind(tur, trun_8)
+
 
 prop_combined <- prop_combined[!prop_combined$distribution=="Truncated uniform right",]
 prop_combined <- rbind(tur, prop_combined)
+
 
 
 

@@ -1,6 +1,7 @@
 library(dplyr)
 library(here)
 library(ggplot2)
+library(tidyr)
 
 datapath <- file.path( here::here(),"Data_folder","forest_distributions")
 
@@ -34,7 +35,7 @@ m4Uni <- read_and_label("3", "4", "Uni")
 
 m1J <- read_and_label("4", "1", "J")
 m3J <- read_and_label("5", "3", "J")
-m4J <- read_and_label("6", "4", "J")
+#m4J <- read_and_label("6", "4", "J")
 
 m1Arb <- read_and_label("7", "1", "Arb")
 m3Arb <- read_and_label("8", "3", "Arb")
@@ -42,7 +43,7 @@ m4Arb <- read_and_label("9", "4", "Arb")
 
 avg_combined<- rbind(
   m1Uni, m3Uni, m4Uni,
-  m1J, m3J, m4J,
+  m1J, m3J, #m4J,
   m1Arb, m3Arb, m4Arb
 )
 
@@ -89,6 +90,10 @@ avg_combined[avg_combined$Est=="E15" & avg_combined$distribution=="Truncated Uni
 avg_combined[avg_combined$Est=="E16" & avg_combined$distribution=="Truncated Uniform","distribution"] <- "Truncated uniform right"
 
 
+
+
+
+
 table(avg_combined$distribution)
 # 
 avg_combined$dist_name<-factor(avg_combined$distribution, levels=c( "Proportional","Parabolic",
@@ -114,16 +119,29 @@ tur_avg <- avg_combined[avg_combined$distribution=="Truncated uniform right", ]
 
 
 
-tur_avg[tur_avg$Est==16,"Est"] <- 1
-tur_avg[tur_avg$Est==15,"Est"] <- 2
-tur_avg[tur_avg$Est==14,"Est"] <- 3
-tur_avg[tur_avg$Est==13,"Est"] <- 4
-tur_avg[tur_avg$Est==12,"Est"] <- 5
-tur_avg[tur_avg$Est==11,"Est"] <- 6
-tur_avg[tur_avg$Est==10,"Est"] <- 7
-tur_avg[tur_avg$Est==9,"Est"] <- 8
+# exclude est 16
+tur_avg <-  tur_avg[tur_avg$Est!=16, ] 
 
+# relabel est15 to be 1
 
+ tur_avg[tur_avg$Est==15,"Est"] <- 1
+ tur_avg[tur_avg$Est==14,"Est"] <- 2
+ tur_avg[tur_avg$Est==13,"Est"] <- 3
+ tur_avg[tur_avg$Est==12,"Est"] <- 4
+ tur_avg[tur_avg$Est==11,"Est"] <- 5
+ tur_avg[tur_avg$Est==10,"Est"] <- 6
+ tur_avg[tur_avg$Est==9,"Est"] <-  7
+ 
+ # for row 8; take EST 8 from trunc L
+ trun_8 <- avg_combined[avg_combined$Est==8 &
+                          avg_combined$distribution=="Truncated uniform left",]
+
+ trun_8[trun_8$Est==8, "Est"] <- 1
+ 
+# now combine tur_avg and trun_8
+tur_avg <-  rbind(tur_avg, trun_8)
+ 
+ 
 avg_combined <- avg_combined[!avg_combined$distribution=="Truncated uniform right",]
 avg_combined <- rbind(tur_avg, avg_combined)
 
