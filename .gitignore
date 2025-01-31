@@ -6,7 +6,12 @@
 .RData
 .RDataTmp
 
+*.mat
 *.csv
+
+!fakeforest_arbogast.csv
+!fakeforest_uniform.csv
+!fakeforest_V2.csv
 
 # User-specific files
 .Ruserdata
