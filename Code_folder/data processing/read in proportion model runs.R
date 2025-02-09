@@ -102,10 +102,15 @@ prop_combined$Sample <- factor(prop_combined$Sample,
 
 tur <- prop_combined[prop_combined$distribution=="Truncated uniform right", ]
 
+prop16_J <- tur[tur$Est==16 & tur$Diam_distribution=="J", ] 
+prop16_J$dist_name <- "Proportional"
+prop16_J$distribution <- "Proportional"
 
 
 # exclude est 16
 tur <-  tur[tur$Est!=16, ] 
+
+
 
 # relabel est15 to be 1
 
@@ -127,11 +132,19 @@ trun_8[trun_8$Est==8, "Est"] <- 8
 tur <-  rbind(tur, trun_8)
 
 
+#Bring it all back together, dropping the truncated uniform right from prop combined.
 prop_combined <- prop_combined[!prop_combined$distribution=="Truncated uniform right",]
 prop_combined <- rbind(tur, prop_combined)
 
 
+# But! we still want to deal with the prop J dist
+## so remove it
+prop_combined <- prop_combined[prop_combined$Diam_distribution!="J" &
+                                 prop_combined$dist_name!="Proportional",]
 
+prop_combined2 <- rbind(prop_combined, prop16_J)
+
+table(prop_combined2$distribution, prop_combined2$Diam_distribution )
 
 ###############
 write.csv(prop_combined, file.path( datapath,"prop_combined.csv"))

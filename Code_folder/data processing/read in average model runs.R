@@ -118,6 +118,16 @@ avg_combined$Sample<- paste0("n",avg_combined$tree_count)
 tur_avg <- avg_combined[avg_combined$distribution=="Truncated uniform right", ]
 
 
+avg16 <- tur_avg[tur_avg$Est==16 & tur_avg$Diam_distribution=="J" , ] 
+avg16[avg16$Diam_distribution=="J",]
+
+# is this the right row for proportional
+### come back to this at the end.
+avg16$distribution <- "Proportional"
+avg16$dist_name <- "Proportional"
+
+
+
 
 # exclude est 16
 tur_avg <-  tur_avg[tur_avg$Est!=16, ] 
@@ -145,7 +155,42 @@ tur_avg <-  rbind(tur_avg, trun_8)
 avg_combined <- avg_combined[!avg_combined$distribution=="Truncated uniform right",]
 avg_combined <- rbind(tur_avg, avg_combined)
 
+##############
+
+# now deal with the proportional in the J
+table(avg_combined$distribution, avg_combined$Diam_distribution)
+
+## I want to insert these values into the proportional.
+avg16
 
 
+avg_combined <- rbind(tur_avg, avg_combined)
 
-write.csv(avg_combined,  file.path( datapath,"avg_combined.csv"))
+
+###
+# separate out the J forest
+j_for <- avg_combined[avg_combined$Diam_distribution=="J",]
+
+# keep the other two forests
+uni_arb <- avg_combined[avg_combined$Diam_distribution!="J",] 
+
+dim(avg_combined)  
+dim(j_for)
+dim(uni_arb)
+
+
+# take out the proportional
+j_for <- j_for[j_for$dist_name!="Proportional",]
+dim(j_for)
+dim(avg16)
+
+# add in the proportional avg_16
+j_for <- rbind(j_for, avg16)
+
+
+avg_combined2 <- rbind(j_for, uni_arb)
+
+dim(avg_combined)
+dim(avg_combined2)
+
+write.csv(avg_combined2,  file.path( datapath,"avg_combined.csv"))
