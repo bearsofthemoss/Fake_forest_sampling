@@ -118,7 +118,7 @@ prop_combined <- rbind(tur, prop_combined)
 
 
 ###############
-write.csv(prop_combined, file.path( datapath,"prop_combined.csv"))
+write.csv(prop_combined, file.path( datapath,"prop_combined_new.csv"), row.names = FALSE)
 
 
 
