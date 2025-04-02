@@ -4,7 +4,7 @@ library(ggplot2)
 
 # proportion dataset
 prop_path <- file.path(here::here(), "Data_folder", "forest_distributions")
-prop <- read.csv(file.path(prop_path, "prop_combined_new.csv"))
+prop <- read.csv(file.path(prop_path, "prop_combined.csv"))
 prop <- prop[,-1]
 
 # Order the factors
@@ -12,7 +12,7 @@ prop$Sample <- factor(prop$Sample,
                       levels = c("n10", "n15", "n30", "n45", "n80", "n130", "n215", "n360", "n600", "n1000"))
 
 prop$dist_name <- factor(prop$distribution, 
-                         levels = c("Proportional", "Skewed right", "Skewed left",
+                         levels = c("Proportional", "Parabolic", "Skewed right", "Skewed left",
                                     "Truncated uniform left", "Truncated uniform right", "Triangular"))
 
 # Reorder the factor for Sample (again)
@@ -27,7 +27,7 @@ table(prop$dist_name)
 
 # Reset the levels for dist_name
 prop$dist_name <- factor(prop$distribution, 
-                         levels = c("Proportional", "Skewed right", "Skewed left", "Triangular"))
+                         levels = c("Proportional", "Parabolic", "Skewed right", "Skewed left", "Triangular"))
 
 # Remove any rows with NA for dist_name and create a grouping variable
 prop <- prop[!is.na(prop$dist_name), ]
@@ -35,7 +35,7 @@ prop$group <- paste(prop$Est, prop$dist_name)
 
 # Set the order of distribution factor
 prop$distribution <- factor(prop$distribution, 
-                            levels = c("Proportional", "Skewed left", "Skewed right", "Triangular"))
+                            levels = c("Proportional", "Parabolic", "Skewed left", "Skewed right", "Triangular"))
 
 # Split data into proportional and non-proportional parts
 only_prop <- prop[prop$distribution == "Proportional", ]
@@ -45,17 +45,20 @@ no_prop <- prop[prop$distribution != "Proportional", ]
 prop_sL <- only_prop
 prop_sR <- only_prop
 prop_tri <- only_prop
+prop_Para <- only_prop
 
 prop_sL$Est <- "Proportional"
 prop_sR$Est <- "Proportional"
 prop_tri$Est <- "Proportional"
+prop_Para$Est <- "Proportional"
 
+prop_Para$distribution <- "Parabolic"
 prop_sL$distribution <- "Skewed left"
 prop_sR$distribution <- "Skewed right"
 prop_tri$distribution <- "Triangular"
 
 # Combine all data into one dataset
-use_prop <- rbind(no_prop, prop_sL, prop_sR, prop_tri)
+use_prop <- rbind(no_prop, prop_Para, prop_sL, prop_sR, prop_tri)
 
 use_prop$sel_color <- use_prop$Est == "Proportional"
 use_prop[use_prop$sel_color == "FALSE", "sel_color"] <- "Alternate sampling strategy"
@@ -84,14 +87,15 @@ for (mod in models) {
     labs(x = "Sample size", y = "Probability of <10% difference") +
     scale_x_log10() +
     theme_bw() +
-    theme(panel.grid = element_blank()) +
+    theme(panel.grid = element_blank(), axis.text = element_text(size = 7)) +
     ggtitle(mod)
   
   # Create a filename that includes the model name (replacing spaces with underscores)
   file_name <- file.path(here::here(), paste0("Fig_5_skew_", gsub(" ", "_", mod), ".tif"))
   
   # Save the plot as a TIFF file
-  #tiff(file_name, width = 10 * dpi, height = 5 * dpi, res = dpi)
+  tiff(file_name, width = 7 * dpi, height = 6 * dpi, res = dpi)
   print(f5_fig)
   dev.off()
 }
+

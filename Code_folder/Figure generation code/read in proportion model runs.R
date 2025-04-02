@@ -6,7 +6,7 @@ datapath <- file.path( here::here(),"Data_folder","New_model_run_proportion")
 
 
 read_and_label <- function(folder, model, diam_dist) {
-  file_names <- c("Parabolic", "Proportional", "Triangular_left", "Triangular_rigth", 
+  file_names <- c("Parabolic", "Proportional", "Triangular_left", "Triangular_right", 
                   "Triangular_Ushaped", "Truncated_Triangles", "Truncated_Uniform")
   
   dfs <- lapply(file_names, function(name) {
@@ -118,7 +118,7 @@ prop_combined <- rbind(tur, prop_combined)
 
 
 ###############
-write.csv(prop_combined, file.path( datapath,"prop_combined_new.csv"), row.names = FALSE)
+write.csv(prop_combined, file.path( datapath,"prop_combined_new2.csv"), row.names = FALSE)
 
 
 
