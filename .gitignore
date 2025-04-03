@@ -51,3 +51,5 @@ rsconnect/
 
 # Mac Resource
 .DS_Store
+*.csv
+*.mat
