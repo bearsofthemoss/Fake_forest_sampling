@@ -6,7 +6,6 @@
 .RData
 .RDataTmp
 
-*.csv
 
 # User-specific files
 .Ruserdata
@@ -49,3 +48,6 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+# Mac Resource
+.DS_Store
