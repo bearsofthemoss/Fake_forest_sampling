@@ -1,5 +1,10 @@
 
+# Wrangle matlab code to produce .csv output for visualization ####
 
+
+# Uni forest ####
+
+## Uni_resultsModel1 #################################
 
 rm(list=ls(all=TRUE))
 
@@ -11,22 +16,20 @@ library(here)
 
 # functions
 #setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF")
-
 source(here::here("Code_folder","data processing","FunctionsASMA.R"))
-
-# Uni forest #### 
-
-## Uni_resultsModel1 #################################
-
-
-# Address to read inputs and save outputs
-#setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF/1_Uni_resultsModel1")
-matlab_path <- here::here("Data_folder","matlab_output")
 
 
 # read in our data
 ### Here Alex changed 'J_resultsModel1_Folder' to Uni_resultsModel1_Folder
-Uni_resultsModel1_Folder <-readMat(here::here( matlab_path, "Uni_resultsModel1.mat"))
+Uni_resultsModel1_Folder <-readMat(here::here( "Data_folder","matlab_output",
+                                               "Uni_resultsModel1.mat"))
+
+# Address to save outputs
+#setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF/1_Uni_resultsModel1")
+if(!exists(here::here("Data_folder","forest_distributions","1_Uni_resultsModel1"))){
+  dir.create(here::here("Data_folder","forest_distributions","1_Uni_resultsModel1"))}
+
+setwd(here::here("Data_folder","forest_distributions","1_Uni_resultsModel1"))
 
 
 ##################################### 1 strategy
@@ -48,9 +51,9 @@ SamSizeV1<-c(10,15,30,45,80,130,215,360,600,1000)
 
 # PROPORTIONAL
 Dist<-"Proportional"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecProportional
+DataBase <- Uni_resultsModel1_Folder$UncertaintyVecProportional
 VecProportional<- print(fun_DataBase(DataBase,1,EstT1,SamSizeT1))
-print(fun_MultyHist(Dist,1,VecProportional, EstE1, SamSizeV1))
+##print(fun_MultyHist(Dist,1,VecProportional, EstE1, SamSizeV1))
 print(fun_ProbTables(Dist,1,VecProportional, EstE1, SamSizeV1))
 print(fun_MeanTables(Dist,1,VecProportional, EstE1, SamSizeV1))
 
@@ -74,33 +77,33 @@ SamSizeV8<-c(10,15,30,45,80,130,215,360,600,1000)
 
 # PARABOLIC
 Dist<-"Parabolic"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecParabolic
+DataBase <- Uni_resultsModel1_Folder$UncertaintyVecParabolic
 VecParabolic<- print(fun_DataBase(DataBase,8,EstT8,SamSizeT8))
-print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
+##print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_ProbTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 
 # TRIANGULAR LEFT
 Dist<-"Triangular_Left"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTriangularLeft
+DataBase <- Uni_resultsModel1_Folder$UncertaintyVecTriangularLeft
 VecParabolic<- print(fun_DataBase(DataBase,8,EstT8,SamSizeT8))
-print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
+##print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_ProbTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 
 # TRIANGULAR RIGHT
-Dist<-"Triangular_Rigth"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTriangularRight
+Dist<-"Triangular_Right"
+DataBase <- Uni_resultsModel1_Folder$UncertaintyVecTriangularRight
 VecParabolic<- print(fun_DataBase(DataBase,8,EstT8,SamSizeT8))
-print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
+##print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_ProbTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 
 # TRIANGULAR U_SAHPED
 Dist<-"Triangular_Ushaped"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTriangularUshaped
+DataBase <- Uni_resultsModel1_Folder$UncertaintyVecTriangularUshaped
 VecParabolic<- print(fun_DataBase(DataBase,8,EstT8,SamSizeT8))
-print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
+##print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_ProbTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 
@@ -122,21 +125,22 @@ SamSizeV16<-c(10,15,30,45,80,130,215,360,600,1000)
 
 # TRUNCATED TRIANGLES
 Dist<-"Truncated_Triangles"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTruncatedTriangles
+DataBase <- Uni_resultsModel1_Folder$UncertaintyVecTruncatedTriangles
 VecParabolic<- print(fun_DataBase(DataBase,16,EstT16,SamSizeT16))
-print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
+#print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_ProbTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_MeanTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 
 # TRUNCATED UNIFORM
 Dist<-"Truncated_Uniform"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTruncatedUniform
+DataBase <- Uni_resultsModel1_Folder$UncertaintyVecTruncatedUniform
 VecParabolic<- print(fun_DataBase(DataBase,16,EstT16,SamSizeT16))
-print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
+#print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_ProbTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_MeanTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 
 ## Alex ran up till here-  is this where the .csv is written for Uni model 1 results?
+
 
 ## Uni_resultsModel3 #################################
 
@@ -146,16 +150,24 @@ rm(list=ls(all=TRUE))
 library(R.matlab)
 library(ggplot2)
 library(gridExtra)
+library(here)
 
-# functions
-setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF")
-source("FunctionsASMA.R")
-
-# Address to read inputs and save outputs
-setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF/2_Uni_resultsModel3")
+# # functions
+# setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF")
+# source("FunctionsASMA.R")
+source(here::here("Code_folder","data processing","FunctionsASMA.R"))
 
 # read in our data
-J_resultsModel1_Folder <- readMat("Uni_resultsModel3.mat")
+#J_resultsModel3_Folder <- readMat("Uni_resultsModel3.mat")
+Uni_resultsModel3_Folder <-readMat(here::here( "Data_folder","matlab_output",
+                                               "Uni_resultsModel3.mat"))
+
+# Address to read inputs and save outputs
+if(!exists(here::here("Data_folder","forest_distributions","2_Uni_resultsModel3"))){
+  dir.create(here::here("Data_folder","forest_distributions","2_Uni_resultsModel3"))}
+
+setwd(here::here("Data_folder","forest_distributions","2_Uni_resultsModel3"))
+
 
 
 ##################################### 1 strategy
@@ -177,9 +189,9 @@ SamSizeV1<-c(10,15,30,45,80,130,215,360,600,1000)
 
 # PROPORTIONAL
 Dist<-"Proportional"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecProportional
+DataBase <- Uni_resultsModel3_Folder$UncertaintyVecProportional
 VecProportional<- print(fun_DataBase(DataBase,1,EstT1,SamSizeT1))
-print(fun_MultyHist(Dist,1,VecProportional, EstE1, SamSizeV1))
+#print(fun_MultyHist(Dist,1,VecProportional, EstE1, SamSizeV1))
 print(fun_ProbTables(Dist,1,VecProportional, EstE1, SamSizeV1))
 print(fun_MeanTables(Dist,1,VecProportional, EstE1, SamSizeV1))
 
@@ -203,33 +215,33 @@ SamSizeV8<-c(10,15,30,45,80,130,215,360,600,1000)
 
 # PARABOLIC
 Dist<-"Parabolic"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecParabolic
+DataBase <- Uni_resultsModel3_Folder$UncertaintyVecParabolic
 VecParabolic<- print(fun_DataBase(DataBase,8,EstT8,SamSizeT8))
-print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
+#print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_ProbTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 
 # TRIANGULAR LEFT
 Dist<-"Triangular_Left"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTriangularLeft
+DataBase <- Uni_resultsModel3_Folder$UncertaintyVecTriangularLeft
 VecParabolic<- print(fun_DataBase(DataBase,8,EstT8,SamSizeT8))
-print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
+#print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_ProbTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 
 # TRIANGULAR RIGHT
-Dist<-"Triangular_Rigth"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTriangularRight
+Dist<-"Triangular_Right"
+DataBase <- Uni_resultsModel3_Folder$UncertaintyVecTriangularRight
 VecParabolic<- print(fun_DataBase(DataBase,8,EstT8,SamSizeT8))
-print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
+#print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_ProbTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 
 # TRIANGULAR U_SAHPED
 Dist<-"Triangular_Ushaped"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTriangularUshaped
+DataBase <- Uni_resultsModel3_Folder$UncertaintyVecTriangularUshaped
 VecParabolic<- print(fun_DataBase(DataBase,8,EstT8,SamSizeT8))
-print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
+#print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_ProbTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 
@@ -251,17 +263,17 @@ SamSizeV16<-c(10,15,30,45,80,130,215,360,600,1000)
 
 # TRUNCATED TRIANGLES
 Dist<-"Truncated_Triangles"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTruncatedTriangles
+DataBase <- Uni_resultsModel3_Folder$UncertaintyVecTruncatedTriangles
 VecParabolic<- print(fun_DataBase(DataBase,16,EstT16,SamSizeT16))
-print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
+#print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_ProbTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_MeanTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 
 # TRUNCATED UNIFORM
 Dist<-"Truncated_Uniform"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTruncatedUniform
+DataBase <- Uni_resultsModel3_Folder$UncertaintyVecTruncatedUniform
 VecParabolic<- print(fun_DataBase(DataBase,16,EstT16,SamSizeT16))
-print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
+#print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_ProbTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_MeanTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 
@@ -274,16 +286,22 @@ rm(list=ls(all=TRUE))
 library(R.matlab)
 library(ggplot2)
 library(gridExtra)
+library(here)
 
 # functions
-setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF")
-source("FunctionsASMA.R")
-
-# Address to read inputs and save outputs
-setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF/3_Uni_resultsModel4")
+#setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF")
+source(here::here("Code_folder","data processing","FunctionsASMA.R"))
 
 # read in our data
-J_resultsModel1_Folder <- readMat("Uni_resultsModel4.mat")
+Uni_resultsModel4_Folder <-readMat(here::here( "Data_folder","matlab_output",
+                                               "Uni_resultsModel4.mat"))
+
+if(!exists(here::here("Data_folder","forest_distributions","3_Uni_resultsModel4"))){
+  dir.create(here::here("Data_folder","forest_distributions","3_Uni_resultsModel4"))}
+
+
+# Address to read inputs and save outputs
+setwd(here::here("Data_folder","forest_distributions","3_Uni_resultsModel4"))
 
 
 ##################################### 1 strategy
@@ -305,9 +323,9 @@ SamSizeV1<-c(10,15,30,45,80,130,215,360,600,1000)
 
 # PROPORTIONAL
 Dist<-"Proportional"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecProportional
+DataBase <- Uni_resultsModel4_Folder$UncertaintyVecProportional
 VecProportional<- print(fun_DataBase(DataBase,1,EstT1,SamSizeT1))
-print(fun_MultyHist(Dist,1,VecProportional, EstE1, SamSizeV1))
+#print(fun_MultyHist(Dist,1,VecProportional, EstE1, SamSizeV1))
 print(fun_ProbTables(Dist,1,VecProportional, EstE1, SamSizeV1))
 print(fun_MeanTables(Dist,1,VecProportional, EstE1, SamSizeV1))
 
@@ -331,33 +349,33 @@ SamSizeV8<-c(10,15,30,45,80,130,215,360,600,1000)
 
 # PARABOLIC
 Dist<-"Parabolic"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecParabolic
+DataBase <- Uni_resultsModel4_Folder$UncertaintyVecParabolic
 VecParabolic<- print(fun_DataBase(DataBase,8,EstT8,SamSizeT8))
-print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
+#print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_ProbTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 
 # TRIANGULAR LEFT
 Dist<-"Triangular_Left"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTriangularLeft
+DataBase <- Uni_resultsModel4_Folder$UncertaintyVecTriangularLeft
 VecParabolic<- print(fun_DataBase(DataBase,8,EstT8,SamSizeT8))
-print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
+#print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_ProbTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 
 # TRIANGULAR RIGHT
-Dist<-"Triangular_Rigth"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTriangularRight
+Dist<-"Triangular_Right"
+DataBase <- Uni_resultsModel4_Folder$UncertaintyVecTriangularRight
 VecParabolic<- print(fun_DataBase(DataBase,8,EstT8,SamSizeT8))
-print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
+#print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_ProbTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 
 # TRIANGULAR U_SAHPED
 Dist<-"Triangular_Ushaped"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTriangularUshaped
+DataBase <- Uni_resultsModel4_Folder$UncertaintyVecTriangularUshaped
 VecParabolic<- print(fun_DataBase(DataBase,8,EstT8,SamSizeT8))
-print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
+#print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_ProbTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 
@@ -379,17 +397,17 @@ SamSizeV16<-c(10,15,30,45,80,130,215,360,600,1000)
 
 # TRUNCATED TRIANGLES
 Dist<-"Truncated_Triangles"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTruncatedTriangles
+DataBase <- Uni_resultsModel4_Folder$UncertaintyVecTruncatedTriangles
 VecParabolic<- print(fun_DataBase(DataBase,16,EstT16,SamSizeT16))
-print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
+#print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_ProbTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_MeanTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 
 # TRUNCATED UNIFORM
 Dist<-"Truncated_Uniform"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTruncatedUniform
+DataBase <- Uni_resultsModel4_Folder$UncertaintyVecTruncatedUniform
 VecParabolic<- print(fun_DataBase(DataBase,16,EstT16,SamSizeT16))
-print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
+#print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_ProbTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_MeanTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 
@@ -405,16 +423,24 @@ rm(list=ls(all=TRUE))
 library(R.matlab)
 library(ggplot2)
 library(gridExtra)
+library(here)
 
 # functions
-setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF")
-source("FunctionsASMA.R")
-
-# Address to read inputs and save outputs
-setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF/4_J_resultsModel1")
+#setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF")
+#source("FunctionsASMA.R")
+source(here::here("Code_folder","data processing","FunctionsASMA.R"))
 
 # read in our data
-J_resultsModel1_Folder <- readMat("J_resultsModel1.mat")
+#J_resultsModel1_Folder <- readMat("J_resultsModel1.mat")
+J_resultsModel1_Folder <-readMat(here::here("Data_folder","matlab_output",
+                                            "J_resultsModel1.mat"))
+
+# Address to read inputs and save outputs
+#setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF/4_J_resultsModel1")
+if(!exists(here::here("Data_folder","forest_distributions","4_J_resultsModel1"))){
+  dir.create(here::here("Data_folder","forest_distributions","4_J_resultsModel1"))}
+
+setwd(here::here("Data_folder","forest_distributions","4_J_resultsModel1"))
 
 
 ##################################### 1 strategy
@@ -438,7 +464,7 @@ SamSizeV1<-c(10,15,30,45,80,130,215,360,600,1000)
 Dist<-"Proportional"
 DataBase <- J_resultsModel1_Folder$UncertaintyVecProportional
 VecProportional<- print(fun_DataBase(DataBase,1,EstT1,SamSizeT1))
-print(fun_MultyHist(Dist,1,VecProportional, EstE1, SamSizeV1))
+#print(fun_MultyHist(Dist,1,VecProportional, EstE1, SamSizeV1))
 print(fun_ProbTables(Dist,1,VecProportional, EstE1, SamSizeV1))
 print(fun_MeanTables(Dist,1,VecProportional, EstE1, SamSizeV1))
 
@@ -464,7 +490,7 @@ SamSizeV8<-c(10,15,30,45,80,130,215,360,600,1000)
 Dist<-"Parabolic"
 DataBase <- J_resultsModel1_Folder$UncertaintyVecParabolic
 VecParabolic<- print(fun_DataBase(DataBase,8,EstT8,SamSizeT8))
-print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
+#print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_ProbTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 
@@ -472,15 +498,15 @@ print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 Dist<-"Triangular_Left"
 DataBase <- J_resultsModel1_Folder$UncertaintyVecTriangularLeft
 VecParabolic<- print(fun_DataBase(DataBase,8,EstT8,SamSizeT8))
-print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
+#print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_ProbTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 
 # TRIANGULAR RIGHT
-Dist<-"Triangular_Rigth"
+Dist<-"Triangular_Right"
 DataBase <- J_resultsModel1_Folder$UncertaintyVecTriangularRight
 VecParabolic<- print(fun_DataBase(DataBase,8,EstT8,SamSizeT8))
-print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
+#print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_ProbTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 
@@ -488,7 +514,7 @@ print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 Dist<-"Triangular_Ushaped"
 DataBase <- J_resultsModel1_Folder$UncertaintyVecTriangularUshaped
 VecParabolic<- print(fun_DataBase(DataBase,8,EstT8,SamSizeT8))
-print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
+#print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_ProbTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 
@@ -512,7 +538,7 @@ SamSizeV16<-c(10,15,30,45,80,130,215,360,600,1000)
 Dist<-"Truncated_Triangles"
 DataBase <- J_resultsModel1_Folder$UncertaintyVecTruncatedTriangles
 VecParabolic<- print(fun_DataBase(DataBase,16,EstT16,SamSizeT16))
-print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
+#print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_ProbTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_MeanTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 
@@ -520,7 +546,7 @@ print(fun_MeanTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 Dist<-"Truncated_Uniform"
 DataBase <- J_resultsModel1_Folder$UncertaintyVecTruncatedUniform
 VecParabolic<- print(fun_DataBase(DataBase,16,EstT16,SamSizeT16))
-print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
+#print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_ProbTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_MeanTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 
@@ -533,16 +559,23 @@ rm(list=ls(all=TRUE))
 library(R.matlab)
 library(ggplot2)
 library(gridExtra)
+library(here)
 
-# functions
-setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF")
-source("FunctionsASMA.R")
+# # functions
+# setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF")
+# source("FunctionsASMA.R")
+source(here::here("Code_folder","data processing","FunctionsASMA.R"))
 
-# Address to read inputs and save outputs
-setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF/5_J_resultsModel3")
+# # read in our data
+# J_resultsModel3_Folder <- readMat("J_resultsModel3.mat")
+J_resultsModel3_Folder <-readMat(here::here("Data_folder","matlab_output",
+                                            "J_resultsModel3.mat"))
 
-# read in our data
-J_resultsModel1_Folder <- readMat("J_resultsModel3.mat")
+# # Address to read inputs and save outputs
+# setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF/5_J_resultsModel3")
+if(!exists(here::here("Data_folder","forest_distributions","5_J_resultsModel3"))){
+  dir.create(here::here("Data_folder","forest_distributions","5_J_resultsModel3"))}
+setwd(here::here("Data_folder","forest_distributions","5_J_resultsModel3"))
 
 
 ##################################### 1 strategy
@@ -564,9 +597,9 @@ SamSizeV1<-c(10,15,30,45,80,130,215,360,600,1000)
 
 # PROPORTIONAL
 Dist<-"Proportional"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecProportional
+DataBase <- J_resultsModel3_Folder$UncertaintyVecProportional
 VecProportional<- print(fun_DataBase(DataBase,1,EstT1,SamSizeT1))
-print(fun_MultyHist(Dist,1,VecProportional, EstE1, SamSizeV1))
+#print(fun_MultyHist(Dist,1,VecProportional, EstE1, SamSizeV1))
 print(fun_ProbTables(Dist,1,VecProportional, EstE1, SamSizeV1))
 print(fun_MeanTables(Dist,1,VecProportional, EstE1, SamSizeV1))
 
@@ -590,33 +623,33 @@ SamSizeV8<-c(10,15,30,45,80,130,215,360,600,1000)
 
 # PARABOLIC
 Dist<-"Parabolic"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecParabolic
+DataBase <- J_resultsModel3_Folder$UncertaintyVecParabolic
 VecParabolic<- print(fun_DataBase(DataBase,8,EstT8,SamSizeT8))
-print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
+#print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_ProbTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 
 # TRIANGULAR LEFT
 Dist<-"Triangular_Left"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTriangularLeft
+DataBase <- J_resultsModel3_Folder$UncertaintyVecTriangularLeft
 VecParabolic<- print(fun_DataBase(DataBase,8,EstT8,SamSizeT8))
-print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
+#print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_ProbTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 
 # TRIANGULAR RIGHT
-Dist<-"Triangular_Rigth"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTriangularRight
+Dist<-"Triangular_Right"
+DataBase <- J_resultsModel3_Folder$UncertaintyVecTriangularRight
 VecParabolic<- print(fun_DataBase(DataBase,8,EstT8,SamSizeT8))
-print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
+#print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_ProbTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 
 # TRIANGULAR U_SAHPED
 Dist<-"Triangular_Ushaped"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTriangularUshaped
+DataBase <- J_resultsModel3_Folder$UncertaintyVecTriangularUshaped
 VecParabolic<- print(fun_DataBase(DataBase,8,EstT8,SamSizeT8))
-print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
+#print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_ProbTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 
@@ -638,17 +671,17 @@ SamSizeV16<-c(10,15,30,45,80,130,215,360,600,1000)
 
 # TRUNCATED TRIANGLES
 Dist<-"Truncated_Triangles"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTruncatedTriangles
+DataBase <- J_resultsModel3_Folder$UncertaintyVecTruncatedTriangles
 VecParabolic<- print(fun_DataBase(DataBase,16,EstT16,SamSizeT16))
-print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
+#print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_ProbTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_MeanTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 
 # TRUNCATED UNIFORM
 Dist<-"Truncated_Uniform"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTruncatedUniform
+DataBase <- J_resultsModel3_Folder$UncertaintyVecTruncatedUniform
 VecParabolic<- print(fun_DataBase(DataBase,16,EstT16,SamSizeT16))
-print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
+#print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_ProbTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_MeanTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 
@@ -662,17 +695,22 @@ rm(list=ls(all=TRUE))
 library(R.matlab)
 library(ggplot2)
 library(gridExtra)
+library(here)
 
 # functions
-setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF")
-source("FunctionsASMA.R")
-
-# Address to read inputs and save outputs
-setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF/6_J_resultsModel4")
+# setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF")
+# source("FunctionsASMA.R")
+source(here::here("Code_folder","data processing","FunctionsASMA.R"))
 
 # read in our data
-J_resultsModel1_Folder <- readMat("J_resultsModel4.mat")
+# J_resultsModel4_Folder <- readMat("J_resultsModel4.mat")
+J_resultsModel4_Folder <-readMat(here::here("Data_folder","matlab_output",
+                                            "J_resultsModel4.mat"))
 
+# Address to read inputs and save outputs
+#setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF/6_J_resultsModel4")
+if(!exists(here::here("Data_folder","forest_distributions","6_J_resultsModel4"))){
+  dir.create(here::here("Data_folder","forest_distributions","6_J_resultsModel4"))}
 
 ##################################### 1 strategy
 
@@ -693,9 +731,9 @@ SamSizeV1<-c(10,15,30,45,80,130,215,360,600,1000)
 
 # PROPORTIONAL
 Dist<-"Proportional"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecProportional
+DataBase <- J_resultsModel4_Folder$UncertaintyVecProportional
 VecProportional<- print(fun_DataBase(DataBase,1,EstT1,SamSizeT1))
-print(fun_MultyHist(Dist,1,VecProportional, EstE1, SamSizeV1))
+#print(fun_MultyHist(Dist,1,VecProportional, EstE1, SamSizeV1))
 print(fun_ProbTables(Dist,1,VecProportional, EstE1, SamSizeV1))
 print(fun_MeanTables(Dist,1,VecProportional, EstE1, SamSizeV1))
 
@@ -719,33 +757,33 @@ SamSizeV8<-c(10,15,30,45,80,130,215,360,600,1000)
 
 # PARABOLIC
 Dist<-"Parabolic"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecParabolic
+DataBase <- J_resultsModel4_Folder$UncertaintyVecParabolic
 VecParabolic<- print(fun_DataBase(DataBase,8,EstT8,SamSizeT8))
-print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
+#print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_ProbTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 
 # TRIANGULAR LEFT
 Dist<-"Triangular_Left"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTriangularLeft
+DataBase <- J_resultsModel4_Folder$UncertaintyVecTriangularLeft
 VecParabolic<- print(fun_DataBase(DataBase,8,EstT8,SamSizeT8))
-print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
+#print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_ProbTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 
 # TRIANGULAR RIGHT
-Dist<-"Triangular_Rigth"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTriangularRight
+Dist<-"Triangular_Right"
+DataBase <- J_resultsModel4_Folder$UncertaintyVecTriangularRight
 VecParabolic<- print(fun_DataBase(DataBase,8,EstT8,SamSizeT8))
-print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
+#print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_ProbTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 
 # TRIANGULAR U_SAHPED
 Dist<-"Triangular_Ushaped"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTriangularUshaped
+DataBase <- J_resultsModel4_Folder$UncertaintyVecTriangularUshaped
 VecParabolic<- print(fun_DataBase(DataBase,8,EstT8,SamSizeT8))
-print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
+#print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_ProbTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 
@@ -767,17 +805,17 @@ SamSizeV16<-c(10,15,30,45,80,130,215,360,600,1000)
 
 # TRUNCATED TRIANGLES
 Dist<-"Truncated_Triangles"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTruncatedTriangles
+DataBase <- J_resultsModel4_Folder$UncertaintyVecTruncatedTriangles
 VecParabolic<- print(fun_DataBase(DataBase,16,EstT16,SamSizeT16))
-print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
+#print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_ProbTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_MeanTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 
 # TRUNCATED UNIFORM
 Dist<-"Truncated_Uniform"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTruncatedUniform
+DataBase <- J_resultsModel4_Folder$UncertaintyVecTruncatedUniform
 VecParabolic<- print(fun_DataBase(DataBase,16,EstT16,SamSizeT16))
-print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
+#print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_ProbTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_MeanTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 
@@ -785,24 +823,31 @@ print(fun_MeanTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 
 # Arb Forest ####
 
+## Arb_resultsModel1 ####
 rm(list=ls(all=TRUE))
 
 # library to read Matlab data formats into R
 library(R.matlab)
 library(ggplot2)
 library(gridExtra)
+library(here)
 
 # functions
-setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF")
-source("FunctionsASMA.R")
-
-# Address to read inputs and save outputs
-setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF/7_Arb_resultsModel1")
-
-## Arb_resultsModel1 ####
+#setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF")
+#source("FunctionsASMA.R")
+source(here::here("Code_folder","data processing","FunctionsASMA.R"))
 
 # read in our data
-J_resultsModel1_Folder <- readMat("Arb_resultsModel1.mat")
+# Arb_resultsModel1_Folder <- readMat("Arb_resultsModel1.mat")
+Arb_resultsModel1_Folder <-readMat(here::here("Data_folder", "matlab_output",
+                                              "Arb_resultsModel1.mat"))
+
+# Address to read inputs and save outputs
+#setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF/7_Arb_resultsModel1")
+if(!exists(here::here("Data_folder","forest_distributions","7_Arb_resultsModel1"))){
+  dir.create(here::here("Data_folder","forest_distributions","7_Arb_resultsModel1"))}
+
+setwd(here::here("Data_folder","forest_distributions","7_Arb_resultsModel1"))
 
 
 ##################################### 1 strategy
@@ -824,9 +869,9 @@ SamSizeV1<-c(10,15,30,45,80,130,215,360,600,1000)
 
 # PROPORTIONAL
 Dist<-"Proportional"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecProportional
+DataBase <- Arb_resultsModel1_Folder$UncertaintyVecProportional
 VecProportional<- print(fun_DataBase(DataBase,1,EstT1,SamSizeT1))
-print(fun_MultyHist(Dist,1,VecProportional, EstE1, SamSizeV1))
+#print(fun_MultyHist(Dist,1,VecProportional, EstE1, SamSizeV1))
 print(fun_ProbTables(Dist,1,VecProportional, EstE1, SamSizeV1))
 print(fun_MeanTables(Dist,1,VecProportional, EstE1, SamSizeV1))
 
@@ -850,33 +895,33 @@ SamSizeV8<-c(10,15,30,45,80,130,215,360,600,1000)
 
 # PARABOLIC
 Dist<-"Parabolic"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecParabolic
+DataBase <- Arb_resultsModel1_Folder$UncertaintyVecParabolic
 VecParabolic<- print(fun_DataBase(DataBase,8,EstT8,SamSizeT8))
-print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
+#print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_ProbTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 
 # TRIANGULAR LEFT
 Dist<-"Triangular_Left"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTriangularLeft
+DataBase <- Arb_resultsModel1_Folder$UncertaintyVecTriangularLeft
 VecParabolic<- print(fun_DataBase(DataBase,8,EstT8,SamSizeT8))
-print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
+#print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_ProbTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 
 # TRIANGULAR RIGHT
-Dist<-"Triangular_Rigth"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTriangularRight
+Dist<-"Triangular_Right"
+DataBase <- Arb_resultsModel1_Folder$UncertaintyVecTriangularRight
 VecParabolic<- print(fun_DataBase(DataBase,8,EstT8,SamSizeT8))
-print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
+#print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_ProbTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 
 # TRIANGULAR U_SAHPED
 Dist<-"Triangular_Ushaped"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTriangularUshaped
+DataBase <- Arb_resultsModel1_Folder$UncertaintyVecTriangularUshaped
 VecParabolic<- print(fun_DataBase(DataBase,8,EstT8,SamSizeT8))
-print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
+#print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_ProbTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 
@@ -898,17 +943,17 @@ SamSizeV16<-c(10,15,30,45,80,130,215,360,600,1000)
 
 # TRUNCATED TRIANGLES
 Dist<-"Truncated_Triangles"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTruncatedTriangles
+DataBase <- Arb_resultsModel1_Folder$UncertaintyVecTruncatedTriangles
 VecParabolic<- print(fun_DataBase(DataBase,16,EstT16,SamSizeT16))
-print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
+#print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_ProbTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_MeanTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 
 # TRUNCATED UNIFORM
 Dist<-"Truncated_Uniform"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTruncatedUniform
+DataBase <- Arb_resultsModel1_Folder$UncertaintyVecTruncatedUniform
 VecParabolic<- print(fun_DataBase(DataBase,16,EstT16,SamSizeT16))
-print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
+#print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_ProbTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_MeanTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 
@@ -923,17 +968,24 @@ rm(list=ls(all=TRUE))
 library(R.matlab)
 library(ggplot2)
 library(gridExtra)
+library(here)
 
 # functions
-setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF")
-source("FunctionsASMA.R")
-
-# Address to read inputs and save outputs
-setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF/8_Arb_resultsModel3")
+#setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF")
+#source("FunctionsASMA.R")
+source(here::here("Code_folder","data processing","FunctionsASMA.R"))
 
 # read in our data
-J_resultsModel1_Folder <- readMat("Arb_resultsModel3.mat")
+#Arb_resultsModel3_Folder <- readMat("Arb_resultsModel3.mat")
+Arb_resultsModel3_Folder <-readMat(here::here("Data_folder", "matlab_output",
+                                              "Arb_resultsModel3.mat"))
 
+# Address to read inputs and save outputs
+#setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF/8_Arb_resultsModel3")
+if(!exists(here::here("Data_folder","forest_distributions","8_Arb_resultsModel3"))){
+  dir.create(here::here("Data_folder","forest_distributions","8_Arb_resultsModel3"))}
+
+setwd(here::here("Data_folder","forest_distributions","8_Arb_resultsModel3"))
 
 ##################################### 1 strategy
 
@@ -954,9 +1006,9 @@ SamSizeV1<-c(10,15,30,45,80,130,215,360,600,1000)
 
 # PROPORTIONAL
 Dist<-"Proportional"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecProportional
+DataBase <- Arb_resultsModel3_Folder$UncertaintyVecProportional
 VecProportional<- print(fun_DataBase(DataBase,1,EstT1,SamSizeT1))
-print(fun_MultyHist(Dist,1,VecProportional, EstE1, SamSizeV1))
+#print(fun_MultyHist(Dist,1,VecProportional, EstE1, SamSizeV1))
 print(fun_ProbTables(Dist,1,VecProportional, EstE1, SamSizeV1))
 print(fun_MeanTables(Dist,1,VecProportional, EstE1, SamSizeV1))
 
@@ -980,33 +1032,33 @@ SamSizeV8<-c(10,15,30,45,80,130,215,360,600,1000)
 
 # PARABOLIC
 Dist<-"Parabolic"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecParabolic
+DataBase <- Arb_resultsModel3_Folder$UncertaintyVecParabolic
 VecParabolic<- print(fun_DataBase(DataBase,8,EstT8,SamSizeT8))
-print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
+#print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_ProbTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 
 # TRIANGULAR LEFT
 Dist<-"Triangular_Left"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTriangularLeft
+DataBase <- Arb_resultsModel3_Folder$UncertaintyVecTriangularLeft
 VecParabolic<- print(fun_DataBase(DataBase,8,EstT8,SamSizeT8))
-print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
+#print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_ProbTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 
 # TRIANGULAR RIGHT
-Dist<-"Triangular_Rigth"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTriangularRight
+Dist<-"Triangular_Right"
+DataBase <- Arb_resultsModel3_Folder$UncertaintyVecTriangularRight
 VecParabolic<- print(fun_DataBase(DataBase,8,EstT8,SamSizeT8))
-print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
+#print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_ProbTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 
 # TRIANGULAR U_SAHPED
 Dist<-"Triangular_Ushaped"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTriangularUshaped
+DataBase <- Arb_resultsModel3_Folder$UncertaintyVecTriangularUshaped
 VecParabolic<- print(fun_DataBase(DataBase,8,EstT8,SamSizeT8))
-print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
+#print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_ProbTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 
@@ -1028,17 +1080,17 @@ SamSizeV16<-c(10,15,30,45,80,130,215,360,600,1000)
 
 # TRUNCATED TRIANGLES
 Dist<-"Truncated_Triangles"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTruncatedTriangles
+DataBase <- Arb_resultsModel3_Folder$UncertaintyVecTruncatedTriangles
 VecParabolic<- print(fun_DataBase(DataBase,16,EstT16,SamSizeT16))
-print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
+#print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_ProbTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_MeanTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 
 # TRUNCATED UNIFORM
 Dist<-"Truncated_Uniform"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTruncatedUniform
+DataBase <- Arb_resultsModel3_Folder$UncertaintyVecTruncatedUniform
 VecParabolic<- print(fun_DataBase(DataBase,16,EstT16,SamSizeT16))
-print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
+#print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_ProbTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_MeanTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 
@@ -1051,17 +1103,24 @@ rm(list=ls(all=TRUE))
 library(R.matlab)
 library(ggplot2)
 library(gridExtra)
+library(here)
 
 # functions
-setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF")
-source("FunctionsASMA.R")
-
-# Address to read inputs and save outputs
-setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF/9_Arb_resultsModel4")
+#setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF")
+#source("FunctionsASMA.R")
+source(here::here("Code_folder","data processing","FunctionsASMA.R"))
 
 # read in our data
-J_resultsModel1_Folder <- readMat("Arb_resultsModel4.mat")
+#Arb_resultsModel4_Folder <- readMat("Arb_resultsModel4.mat")
+Arb_resultsModel4_Folder <-readMat(here::here("Data_folder", "matlab_output",
+                                              "Arb_resultsModel4.mat"))
 
+# Address to read inputs and save outputs
+#setwd("C:/Users/oswaldo/Desktop/SilvaCarbon/2 SILVACARBON-QUERCA/Silvacarbon/3 AsistenciaTécnica/1 ASMA/2023/JuneRun-Craig/PDF/9_Arb_resultsModel4")
+if(!exists(here::here("Data_folder","forest_distributions","9_Arb_resultsModel4"))){
+  dir.create(here::here("Data_folder","forest_distributions","9_Arb_resultsModel4"))}
+
+setwd(here::here("Data_folder","forest_distributions","9_Arb_resultsModel4"))
 
 ##################################### 1 strategy
 
@@ -1082,9 +1141,9 @@ SamSizeV1<-c(10,15,30,45,80,130,215,360,600,1000)
 
 # PROPORTIONAL
 Dist<-"Proportional"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecProportional
+DataBase <- Arb_resultsModel4_Folder$UncertaintyVecProportional
 VecProportional<- print(fun_DataBase(DataBase,1,EstT1,SamSizeT1))
-print(fun_MultyHist(Dist,1,VecProportional, EstE1, SamSizeV1))
+#print(fun_MultyHist(Dist,1,VecProportional, EstE1, SamSizeV1))
 print(fun_ProbTables(Dist,1,VecProportional, EstE1, SamSizeV1))
 print(fun_MeanTables(Dist,1,VecProportional, EstE1, SamSizeV1))
 
@@ -1108,33 +1167,33 @@ SamSizeV8<-c(10,15,30,45,80,130,215,360,600,1000)
 
 # PARABOLIC
 Dist<-"Parabolic"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecParabolic
+DataBase <- Arb_resultsModel4_Folder$UncertaintyVecParabolic
 VecParabolic<- print(fun_DataBase(DataBase,8,EstT8,SamSizeT8))
-print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
+#print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_ProbTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 
 # TRIANGULAR LEFT
 Dist<-"Triangular_Left"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTriangularLeft
+DataBase <- Arb_resultsModel4_Folder$UncertaintyVecTriangularLeft
 VecParabolic<- print(fun_DataBase(DataBase,8,EstT8,SamSizeT8))
-print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
+#print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_ProbTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 
 # TRIANGULAR RIGHT
-Dist<-"Triangular_Rigth"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTriangularRight
+Dist<-"Triangular_Right"
+DataBase <- Arb_resultsModel4_Folder$UncertaintyVecTriangularRight
 VecParabolic<- print(fun_DataBase(DataBase,8,EstT8,SamSizeT8))
-print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
+#print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_ProbTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 
 # TRIANGULAR U_SAHPED
 Dist<-"Triangular_Ushaped"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTriangularUshaped
+DataBase <- Arb_resultsModel4_Folder$UncertaintyVecTriangularUshaped
 VecParabolic<- print(fun_DataBase(DataBase,8,EstT8,SamSizeT8))
-print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
+#print(fun_MultyHist(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_ProbTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 print(fun_MeanTables(Dist,8,VecParabolic, EstE8, SamSizeV8))
 
@@ -1156,17 +1215,17 @@ SamSizeV16<-c(10,15,30,45,80,130,215,360,600,1000)
 
 # TRUNCATED TRIANGLES
 Dist<-"Truncated_Triangles"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTruncatedTriangles
+DataBase <- Arb_resultsModel4_Folder$UncertaintyVecTruncatedTriangles
 VecParabolic<- print(fun_DataBase(DataBase,16,EstT16,SamSizeT16))
-print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
+#print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_ProbTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_MeanTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 
 # TRUNCATED UNIFORM
 Dist<-"Truncated_Uniform"
-DataBase <- J_resultsModel1_Folder$UncertaintyVecTruncatedUniform
+DataBase <- Arb_resultsModel4_Folder$UncertaintyVecTruncatedUniform
 VecParabolic<- print(fun_DataBase(DataBase,16,EstT16,SamSizeT16))
-print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
+#print(fun_MultyHist(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_ProbTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 print(fun_MeanTables(Dist,16,VecParabolic, EstE16, SamSizeV16))
 
