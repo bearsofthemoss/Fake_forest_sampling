@@ -91,7 +91,7 @@ for (mod in models) {
     ggtitle(mod)
   
   # Create a filename that includes the model name (replacing spaces with underscores)
-  file_name <- file.path(here::here(), paste0("Fig_5_skew_", gsub(" ", "_", mod), ".tif"))
+  file_name <- file.path(here::here("Output_files", paste0("Fig_5_skew_", gsub(" ", "_", mod), ".tif")))
   
   # Save the plot as a TIFF file
   tiff(file_name, width = 7 * dpi, height = 6 * dpi, res = dpi)

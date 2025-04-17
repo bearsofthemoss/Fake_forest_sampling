@@ -24,7 +24,7 @@ fd <- file.path(here::here(),"Data_folder","forest_distributions")
 
 arb<-read.csv(file.path(fd,"fakeforest_arbogast.csv"))
 uni<-read.csv(file.path(fd,"fakeforest_uniform.csv"))
-J_for<-read.csv(file.path(fd,"fakeforest_J_ed.csv"))
+J_for<-read.csv(file.path(fd,"fakeforest_J_modified.csv"))
 
 # 
 # par(mfrow=c(3,2))

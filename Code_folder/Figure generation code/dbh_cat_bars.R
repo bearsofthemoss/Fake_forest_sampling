@@ -3,6 +3,8 @@ library(here)
 library(ggplot2)
 library(ggpubr)
 
+# Looks like this is Fig 1 in the paper
+
 # Define the file path and read the data
 fd <- file.path(here::here(), "Data_folder", "forest_distributions")
 arb_forest <- read.csv(file.path(fd, "fakeforest_arbogast_modified.csv"))

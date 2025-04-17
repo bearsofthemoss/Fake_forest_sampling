@@ -2,9 +2,9 @@ library(dplyr)
 library(here)
 library(ggplot2)
 
-prop_path <- file.path(here::here(), "Data_folder","New_model_run_proportion")
+prop_path <- file.path(here::here(), "Data_folder","forest_distributions")
 
-prop <- read.csv(file.path( prop_path , "prop_combined.csv"))
+prop <- read.csv(file.path( prop_path , "prop_combined_new5.csv"))
 prop <- prop[,-1]
 
 # Order the factors
