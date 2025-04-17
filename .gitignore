@@ -9,9 +9,6 @@
 *.mat
 *.csv
 
-!fakeforest_arbogast.csv
-!fakeforest_uniform.csv
-!fakeforest_V2.csv
 
 # User-specific files
 .Ruserdata
@@ -54,3 +51,4 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+*.tif
