@@ -34,7 +34,7 @@ m4Uni <- read_and_label("3", "4", "Uni")
 
 m1J <- read_and_label("4", "1", "J")
 m3J <- read_and_label("5", "3", "J")
-m4J <- read_and_label("6", "4", "J")
+#m4J <- read_and_label("6", "4", "J")
 
 m1Arb <- read_and_label("7", "1", "Arb")
 m3Arb <- read_and_label("8", "3", "Arb")

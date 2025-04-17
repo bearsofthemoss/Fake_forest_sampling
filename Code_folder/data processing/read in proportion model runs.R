@@ -34,7 +34,7 @@ m4Uni <- read_and_label("3", "4", "Uni")
 
 m1J <- read_and_label("4", "1", "J")
 m3J <- read_and_label("5", "3", "J")
-m4J <- read_and_label("6", "4", "J")
+#m4J <- read_and_label("6", "4", "J")
 
 m1Arb <- read_and_label("7", "1", "Arb")
 m3Arb <- read_and_label("8", "3", "Arb")
@@ -42,7 +42,8 @@ m4Arb <- read_and_label("9", "4", "Arb")
 
 prop_combined<- rbind(
   m1Uni, m3Uni, m4Uni,
-  m1J, m3J, m4J,
+  m1J, m3J, 
+  #m4J,
   m1Arb, m3Arb, m4Arb
 )
 
@@ -118,7 +119,7 @@ prop_combined <- rbind(tur, prop_combined)
 
 
 ###############
-write.csv(prop_combined, file.path( datapath,"prop_combined_new2.csv"), row.names = FALSE)
+write.csv(prop_combined, file.path( datapath,"prop_combined_new5.csv"), row.names = FALSE)
 
 
 
